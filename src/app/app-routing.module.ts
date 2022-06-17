@@ -13,9 +13,10 @@ import { VentaComponent } from "./components/venta/venta.component";
 
 
 const appRoutes: Routes = [
-  {path:'',component:HomeComponent},
+  {path:'',component:LoginComponent},
   {path:'inicio',component:HomeComponent},
   {path:'login',component:LoginComponent},
+  {path:'logout/:sure',component:LoginComponent},
   {path:'producto',component:ProductoComponent},
   {path:'inventario',component:InventarioComponent},
   {path:'venta',component:VentaComponent},

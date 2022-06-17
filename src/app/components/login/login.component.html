@@ -1,1 +1,29 @@
-<p>login works!</p>
+<div class="container-flex">
+    <section class="vh-100 gradient-custom">
+        <div class="container py-5 h-100">
+          <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-12 col-md-8 col-lg-6 col-xl-auto mb">
+              <div class="card bg-dark text-white" style="border-radius: 1rem;">
+                <div class="card-body p-5 text-center">
+                  <div class="mb-md-5 mt-md-4 pb-5">
+                    <img src="./assets/logo_small.png">
+                    <form #eliminarForm="ngForm">
+                      <div class="form-outline form-white mb-4">
+                        <input type="text" id="usuario" class="form-control form-control-lg" [(ngModel)]="usuario.usuario" name="usuario"/>
+                        <label class="form-label " for="text">Usuario</label>
+                      </div>
+                      <div class="form-outline form-white mb-4">
+                        <input type="password" id="pass" class="form-control form-control-lg" [(ngModel)]='usuario.password' name="password"/>
+                        <label class="form-label" for="typePasswordX">Contraseña</label>
+                      </div>
+                      <button class="btn btn-outline-light btn-lg px-5" type="submit" (click)="login(eliminarForm)">Aceptar</button>
+                    </form>
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+</div>
