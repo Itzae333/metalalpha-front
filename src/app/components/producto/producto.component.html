@@ -128,7 +128,22 @@
                         <td *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion">
                             {{item.pintura.descripcion}}</td>
                         <td *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion">
-                            <i class="fa fa-pencil fa-1x mb-3 " aria-hidden="true"></i>
+                            <i class="fa fa-pencil fa-1x mb-3 " aria-hidden="true" data-bs-toggle="modal"
+                            data-bs-target="#modelEditarProducto"  (click)="selectEdit(
+                                item.id,
+                                item.nombre,
+                                item.medidas,
+                                item.tipo,
+                                item.precio_public,
+                                item.precio_mayoreo,
+                                item.precio_credito,
+                                item.precio_creditoNo,
+                                item.precio_puebla,
+                                item.precio_tecamachalco,
+                                item.precio_tepeaca,
+                                item.pintura.descripcion,
+                                item.fabrica.descripcion
+                            )"></i>
                             <i class="fa fa-trash fa-1x" aria-hidden="true" data-bs-toggle="modal"
                                 data-bs-target="#modalEliminar" (click)="selectId(item.id)"></i>
                             <i class="fa fa-address-book fa-1x" aria-hidden="true" data-bs-toggle="modal"
@@ -222,37 +237,37 @@
                         <input type="text" class="form-control" id="TipoAgregar" [(ngModel)]="productoSave.tipo"
                             name="tipo">
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6" *ngIf="fabricafiltro==1">
                         <label for="precioAgregar" class="form-label">Precio</label>
                         <input type="text" class="form-control" id="precioAgregar"
                             [(ngModel)]="productoSave.precio_public" name="precio_public">
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6" *ngIf="fabricafiltro==1">
                         <label for="mayoreoAgregar" class="form-label">Mayoreo</label>
                         <input type="text" class="form-control" id="mayoreoAgregar"
                             [(ngModel)]="productoSave.precio_mayoreo" name="precio_mayoreo">
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6" *ngIf="fabricafiltro==1">
                         <label for="creditoAgregar" class="form-label">Credito</label>
                         <input type="text" class="form-control" id="creditoAgregar"
                             [(ngModel)]="productoSave.precio_credito" name="precio_credito">
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6" *ngIf="fabricafiltro==1">
                         <label for="noCreditoAgregar" class="form-label">No Credito</label>
                         <input type="text" class="form-control" id="noCreditoAgregar"
                             [(ngModel)]="productoSave.precio_creditoNo" name="precio_creditoNo">
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6" *ngIf="fabricafiltro==1">
                         <label for="pueblaVirgenAgregar" class="form-label">Puebla</label>
                         <input type="text" class="form-control" id="pueblaVirgenAgregar"
                             [(ngModel)]="productoSave.precio_puebla" name="precio_puebla">
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6" *ngIf="fabricafiltro==2">
                         <label for="pueblaAgregar" class="form-label">Precio</label>
                         <input type="text" class="form-control" id="pueblaAgregar"
                             [(ngModel)]="productoSave.precio_tecamachalco" name="precio_tecamachalco">
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6" *ngIf="fabricafiltro==3">
                         <label for="santaAgregar" class="form-label">Precio</label>
                         <input type="text" class="form-control" id="santaAgregar"
                             [(ngModel)]="productoSave.precio_tepeaca" name="precio_tepeaca">
@@ -282,6 +297,100 @@
                     <div class="col-3 mb-3">
                         <button type="submit" class="btn btn-success" data-bs-dismiss="modal"
                             (click)="guardarProducto(formAgregarProdcuto)">Aceptar</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Modal de Agregar-->
+<div class="modal fade" id="modelEditarProducto" tabindex="-1" aria-labelledby="modelEditarProductoLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable  ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modelEditarProductoLabel">Editar Producto</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="container">
+                <form class="row g-3" #formaActualizar="ngForm" id="formActualizar">
+                    <div class="col-12">
+                        <label for="nombreEditar" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="nombreEditar" [(ngModel)]="productoSave.nombre"
+                        name="nombre">
+                    </div>
+                    <div class="col-12">
+                        <label for="inputPassword4" class="form-label">Medidas</label>
+                        <input type="text" class="form-control" id="medidasEditar" [(ngModel)]="productoSave.medidas"
+                        name="medidas">
+                    </div>
+                    <div class="col-12">
+                        <label for="TipoAgregar" class="form-label">Tipo</label>
+                        <input type="text" class="form-control" id="tipoEditar" [(ngModel)]="productoSave.tipo"
+                        name="tipo">
+                    </div>
+                    <div class="col-md-6" *ngIf="fabricafiltro==1">
+                        <label for="precioAgregar" class="form-label">Precio</label>
+                        <input type="text" class="form-control" id="precio_publicEditar" [(ngModel)]="productoSave.precio_public"
+                        name="precio_public">
+                    </div>
+                    <div class="col-md-6" *ngIf="fabricafiltro==1">
+                        <label for="mayoreoAgregar" class="form-label">Mayoreo</label>
+                        <input type="text" class="form-control" id="precio_mayoreoEditar" [(ngModel)]="productoSave.precio_mayoreo"
+                        name="precio_mayoreo">
+                    </div>
+                    <div class="col-md-6" *ngIf="fabricafiltro==1">
+                        <label for="creditoAgregar" class="form-label">Credito</label>
+                        <input type="text" class="form-control" id="precio_creditoEditar" [(ngModel)]="productoSave.precio_credito"
+                        name="precio_credito">
+                    </div>
+                    <div class="col-md-6" *ngIf="fabricafiltro==1">
+                        <label for="noCreditoAgregar" class="form-label">No Credito</label >
+                        <input type="text" class="form-control" id="precio_noCreditoEditar" [(ngModel)]="productoSave.precio_creditoNo"
+                        name="precio_creditoNo">
+                    </div>
+                    <div class="col-md-6" *ngIf="fabricafiltro==1">
+                        <label for="pueblaVirgenAgregar" class="form-label">Puebla</label>
+                        <input type="text" class="form-control" id="precio_pueblaVirgenEditar" [(ngModel)]="productoSave.precio_puebla"
+                        name="precio_puebla">
+                    </div>
+                    <div class="col-md-6" *ngIf="fabricafiltro==2">
+                        <label for="pueblaAgregar" class="form-label">Precio</label>
+                        <input type="text" class="form-control" id="pueblaEditar" [(ngModel)]="productoSave.precio_tecamachalco"
+                        name="precio_tecamachalco">
+                    </div>
+                    <div class="col-md-6" *ngIf="fabricafiltro==3">
+                        <label for="santaAgregar" class="form-label">Precio</label>
+                        <input type="text" class="form-control" id="santaEditar" [(ngModel)]="productoSave.precio_tepeaca"
+                        name="precio_tepeaca">
+                    </div>
+                    <div class="col-md-6 mb-6" *ngFor="let pintura of pinturas">
+                        <label for="pinturaEditar" class="form-label">Selecciona Material</label>
+                        <select id="pinturaEditar" class="form-select" [(ngModel)]="productoSave.pintura"
+                        name="pintura">
+                            <option selected>Seleccion un Material</option>
+                            <option>{{pintura.descripcion}}</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6 mb-6" *ngFor="let fabrica of fabricas">
+                        <label for="fabricaEditar" class="form-label">Lugar de Manufactura</label>
+                        <select id="fabricaEditar" class="form-select" [(ngModel)]="productoSave.fabrica"
+                        name="fabrica">
+                            <option selected>Seleccion Fabrica</option>
+                            <option>{{fabrica.descripcion}}</option>
+                        </select>
+                    </div>
+                    <div class="col-6 mb-3">
+
+                    </div>
+                    <div class="col-3 mb-3">
+                        <button type="submit" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+                    </div>
+                    <div class="col-3 mb-3">
+                        <button type="submit" class="btn btn-success" data-bs-dismiss="modal"
+                            (click)="actualizarProducto(formaActualizar)">Aceptar</button>
                     </div>
 
                 </form>

@@ -16,11 +16,12 @@ import { UsuarioService } from 'src/app/service/usuario.service';
   selector: 'app-producto',
   templateUrl: './producto.component.html',
   styleUrls: ['./producto.component.css'],
-  providers: [UsuarioService, ProductoService, FabricaService, PinturaService,ColorService,InventarioService]
+  providers: [UsuarioService, ProductoService, FabricaService, PinturaService, ColorService, InventarioService]
 })
 export class ProductoComponent implements OnInit {
   public usuario: any;
   public producto: any;
+  public productoEdit: any;
   public inventario: any;
   public productos: Producto[];
   public fabricas: Fabrica[];
@@ -55,7 +56,7 @@ export class ProductoComponent implements OnInit {
     this.fabricaSave = new Fabrica(0, true, '');
     this.pinturaSave = new Pintura(0, true, '');
     this.productoSave = new Producto(0, '', '', '', 0, 0, 0, 0, 0, 0, 0, true, this.pinturaSave, this.fabricaSave);
-    this.inventarioSave = new Inventario(0, true,0,this.productoSave,this.colorSave,this.fabricaSave);
+    this.inventarioSave = new Inventario(0, true, 0, this.productoSave, this.colorSave, this.fabricaSave);
   }
 
   ngOnInit(): void {
@@ -148,8 +149,8 @@ export class ProductoComponent implements OnInit {
             this._productoService.store(this.productoSave).subscribe(
               result => {
                 this.estatus = "exito";
-            this.mensaje = "Producto agregado con exito";
-            this.ngOnInit();
+                this.mensaje = "Producto agregado con exito";
+                this.ngOnInit();
               },
               error => {
                 this.estatus = "error";
@@ -186,8 +187,8 @@ export class ProductoComponent implements OnInit {
     )
   }
 
-  agregarInventario(form:any){
-    this.inventario=form.value;
+  agregarInventario(form: any) {
+    this.inventario = form.value;
     let idpro = localStorage.getItem('idProducto');
     this._productoService.getIdProducto(idpro).subscribe(
       productoResponse => {
@@ -195,7 +196,7 @@ export class ProductoComponent implements OnInit {
         this._colorService.getNombreColor(this.inventario.color).subscribe(
           colorResponse => {
             this.inventarioSave.color = colorResponse;
-            this.inventarioSave.fabrica =this.usuario.fabrica;
+            this.inventarioSave.fabrica = this.usuario.fabrica;
             console.log(this.inventarioSave);
             this._inventarioService.store(this.inventarioSave).subscribe(
               resul => {
@@ -214,6 +215,123 @@ export class ProductoComponent implements OnInit {
         )
       }
     )
+  }
+
+  selectEdit = function (id: any,
+    nombre: any,
+    medidas: any,
+    tipo: any,
+    precio_public: any,
+    precio_mayoreo: any,
+    precio_credito: any,
+    precio_creditoNo: any,
+    precio_puebla: any,
+    precio_tecamachalco: any,
+    precio_tepeaca: any,
+    pintura: any,
+    fabrica: any,) {
+    $('#nombreEditar').val(nombre);
+    $('#medidasEditar').val(medidas);
+    $('#tipoEditar').val(tipo);
+    $('#precio_publicEditar').val(precio_public);
+    $('#precio_mayoreoEditar').val(precio_mayoreo);
+    $('#precio_creditoEditar').val(precio_credito);
+    $('#precio_noCreditoEditar').val(precio_creditoNo);
+    $('#precio_pueblaVirgenEditar').val(precio_puebla);
+    $('#pueblaEditar').val(precio_tecamachalco);
+    $('#santaEditar').val(precio_tepeaca);
+    $('#pinturaEditar').val(pintura);
+    $('#fabricaEditar').val(fabrica);
+    localStorage.setItem('idProducto', id);
+  }
+
+  actualizarProducto(form: any) {
+    var nombre = $('#nombreEditar').val();
+    var medidas = $('#medidasEditar').val();
+    var tipo = $('#tipoEditar').val();
+    var precio_public = $('#precio_publicEditar').val();
+    var precio_mayoreo = $('#precio_mayoreoEditar').val();
+    var precio_credito = $('#precio_creditoEditar').val();
+    var precio_creditoNo = $('#precio_noCreditoEditar').val();
+    var precio_puebla = $('#precio_pueblaVirgenEditar').val();
+    var precio_tecamachalco = $('#pueblaEditar').val();
+    var precio_tepeaca = $('#santaEditar').val();
+    var pintura = $('#pinturaEditar').val();
+    var fabrica = $('#fabricaEditar').val();
+    let idpro = localStorage.getItem('idProducto');
+    this.producto = form.value;
+    this.producto.nombre = nombre;
+    this.producto.medidas = medidas;
+    this.producto.tipo = tipo;
+    this._productoService.getIdProducto(idpro).subscribe(
+      productoResponse => {
+        this.productoEdit = productoResponse;
+        if (precio_public == undefined) {
+          this.producto.precio_public = this.productoEdit.precio_public;
+        } else {
+          this.producto.precio_public = precio_public;
+        }
+        if (precio_mayoreo == undefined) {
+          this.producto.precio_mayoreo = this.productoEdit.precio_mayoreo;
+        } else {
+          this.producto.precio_mayoreo = precio_mayoreo;
+        }
+        if (precio_credito == undefined) {
+          this.producto.precio_credito = this.productoEdit.precio_credito;
+        } else {
+          this.producto.precio_credito = precio_credito;
+        }
+        if (precio_creditoNo == undefined) {
+          this.producto.precio_creditoNo = this.productoEdit.precio_creditoNo;
+        } else {
+          this.producto.precio_creditoNo = precio_creditoNo;
+        }
+        if (precio_puebla == undefined) {
+          this.producto.precio_puebla = this.productoEdit.precio_puebla;
+        } else {
+          this.producto.precio_puebla = precio_puebla;
+        }
+        if (precio_puebla == undefined) {
+          this.producto.precio_puebla = this.productoEdit.precio_puebla;
+        } else {
+          this.producto.precio_puebla = precio_puebla;
+        }
+        if (precio_tecamachalco == undefined) {
+          this.producto.precio_tecamachalco = this.productoEdit.precio_tecamachalco;
+        } else {
+          this.producto.precio_tecamachalco = precio_tecamachalco;
+        }
+        if (precio_tepeaca == undefined) {
+          this.producto.precio_tepeaca = this.productoEdit.precio_tepeaca;
+        } else {
+          this.producto.precio_tepeaca = precio_tepeaca;
+        }
+        this._pinturaService.getNombrePintura(pintura).subscribe(
+          pinturaResponse => {
+            this.producto.pintura = pinturaResponse;
+            this._fabricaService.getNombreFabrica(fabrica).subscribe(
+              fabricaResponse => {
+                this.producto.fabrica = fabricaResponse;
+                this.producto.activo=true;
+                console.log(this.producto)
+                this._productoService.actualizarProducto(idpro,this.producto).subscribe(
+                  result => {
+                    this.estatus = "exito";
+                    this.mensaje = "Producto Actualizado con exito";
+                    this.ngOnInit();
+                  },
+                  error => {
+                    this.estatus = "error";
+                    this.mensaje = "Error al Actualizar producto"
+                  }
+                )
+              }
+            )
+          }
+        )
+      }
+    )
+
   }
 
 }
