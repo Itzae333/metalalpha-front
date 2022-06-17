@@ -27,6 +27,6 @@ export class InventarioService{
     }
 
     actualizarInventario(id:any,inventario:any):Observable<any>{
-        return this._http.get(this.url+id,inventario)
+        return this._http.put(this.url+id,inventario)
     }
 }
