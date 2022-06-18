@@ -27,6 +27,6 @@ export class ClienteService{
     }
 
     actualizarCliente(id:any,cliente:any):Observable<any>{
-        return this._http.get(this.url+id,cliente)
+        return this._http.put(this.url+id,cliente)
     }
 }

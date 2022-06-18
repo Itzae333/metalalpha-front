@@ -1,68 +1,251 @@
-<div class="container-fluid " >
-    <div class="container-fluid">
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+    <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
+        <path
+            d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+    </symbol>
+    <symbol id="info-fill" fill="currentColor" viewBox="0 0 16 16">
+        <path
+            d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z" />
+    </symbol>
+    <symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
+        <path
+            d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+    </symbol>
+</svg>
 
-        <div class="row g-5">
-            <div class="col text-center">
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"
-                        value="option1">
-                    <label class="form-check-label" for="inlineRadio1">Todos</label>
+<div class="container-flex">
+    <section class="vh-100 gradient-custom">
+        <div class="container-fluid ">
+            <div class="row g-5 ">
+                <div class="col-2">
+
                 </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"
-                        value="option2">
-                    <label class="form-check-label" for="inlineRadio2">Virgen</label>
+                <div class="col-4">
+                    <div class="form-check form-check-inline" *ngIf="nivel==1">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"
+                            value="option1">
+                        <label class="form-check-label" for="inlineRadio1">Todos</label>
+                    </div>
+                    <div class="form-check form-check-inline" *ngIf="nivel==1">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"
+                            value="option2">
+                        <label class="form-check-label" for="inlineRadio2">Virgen</label>
+                    </div>
+                    <div class="form-check form-check-inline" *ngIf="nivel==1">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"
+                            value="option2">
+                        <label class="form-check-label" for="inlineRadio2">Puebla</label>
+                    </div>
+                    <div class="form-check form-check-inline" *ngIf="nivel==1">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"
+                            value="option2">
+                        <label class="form-check-label" for="inlineRadio2">Santa</label>
+                    </div>
                 </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"
-                        value="option2">
-                    <label class="form-check-label" for="inlineRadio2">Puebla</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"
-                        value="option2">
-                    <label class="form-check-label" for="inlineRadio2">Santa</label>
+                <div class="col-4">
+                    <form class="d-flex">
+                        <input class="form-control me-2 gradient-buscar" id="buscar" name="buscar" [(ngModel)]="buscar">
+                        <button class="button-78" role="button" (click)="buscarCliente(buscar)">Buscar</button>
+                    </form>
                 </div>
             </div>
-            <div class="col text-center">
-                <form class="d-flex">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">Buscar</button>
+        </div>
+        <div class="container-rigth ">
+            <div class="alert alert-success d-flex align-items-center col-6" role="alert" *ngIf="estatus=='exito'">
+                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:">
+                    <use xlink:href="#check-circle-fill" />
+                </svg>
+                <div>
+                    {{mensaje}}
+                </div>
+            </div>
+            <div class="alert alert-danger d-flex align-items-center" role="alert" *ngIf="estatus=='error'">
+                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:">
+                    <use xlink:href="#exclamation-triangle-fill" />
+                </svg>
+                <div>
+                    {{mensaje}}
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="container-auto">
+            <div class="col-6"></div>
+            <i class="fa fa-plus-circle  fa-2x mb-3 col-6" aria-hidden="true" data-bs-toggle="modal"
+                data-bs-target="#modalAgregarCliente">Agregar cliente</i>
+            <div class="table-responsive-lg">
+                <table class="table  table-dark ">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Apellido</th>
+                            <th scope="col">Telefono</th>
+                            <th scope="col">Correo</th>
+                            <th scope="col">Tipo Cuenta</th>
+                            <th scope="col">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of clientes">
+                            <td *ngIf="item.activo==true">
+                                {{item.id}}</td>
+                            <td *ngIf="item.activo==true ">
+                                {{item.nombre}}</td>
+                            <td *ngIf="item.activo==true ">
+                                {{item.apellido}}</td>
+                            <td *ngIf="item.activo==true">
+                                {{item.telefono}}</td>
+                            <td *ngIf="item.activo==true">
+                                {{item.correo}}</td>
+                            <td *ngIf="item.activo==true">
+                                {{item.tipoCuenta.descripcion}}</td>
+                            <td *ngIf="item.activo==true">
+                                <i class="fa fa-pencil fa-1x mb-3 " aria-hidden="true" data-bs-toggle="modal"
+                                    data-bs-target="#modalEditarCliente" (click)="selectEdit(
+                                item.id,
+                                item.nombre,
+                                item.apellido,
+                                item.telefono,
+                                item.correo,
+                                item.tipoCuenta.descripcion
+                            )"></i>
+                                <i class="fa fa-trash fa-1x" aria-hidden="true" data-bs-toggle="modal"
+                                    data-bs-target="#modalEliminar" (click)="selectId(item.id)"></i>
+                            </td>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!--Modal de Eliminar-->
+<div class="modal fade" id="modalEliminar" tabindex="-1" aria-labelledby="modalEliminarLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalEliminarLabel">Confirma para su eliminacion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-success" data-bs-dismiss="modal"
+                    (click)="borrarCliente()">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--Modal de Agregar-->
+<div class="modal fade" id="modalAgregarCliente" tabindex="-1" aria-labelledby="mmodalAgregarClienteLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable  ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="mmodalAgregarClienteLabel">Agregar Cliente</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="container">
+                <form class="row g-3" #formaAregarCliente="ngForm">
+                    <div class="col-12">
+                        <label for="nombreAgregar" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="nombreAgregar" [(ngModel)]="clienteSave.nombre"
+                            name="nombre">
+                    </div>
+                    <div class="col-12">
+                        <label for="inputPassword4" class="form-label">Apellido</label>
+                        <input type="text" class="form-control" id="medidasAgregar" [(ngModel)]="clienteSave.apellido"
+                            name="apellido">
+                    </div>
+                    <div class="col-12">
+                        <label for="TipoAgregar" class="form-label">Telefono</label>
+                        <input type="text" class="form-control" id="TipoAgregar" [(ngModel)]="clienteSave.telefono"
+                            name="telefono">
+                    </div>
+                    <div class="col-12">
+                        <label for="TipoAgregar" class="form-label">Correo</label>
+                        <input type="text" class="form-control" id="TipoAgregar" [(ngModel)]="clienteSave.correo"
+                            name="correo">
+                    </div>
+                    <div class="col-md-6 mb-6" *ngFor="let tipocuenta of tipoCuentas">
+                        <label for="tipoCuentaAgregar" class="form-label">Selecciona Cuenta</label>
+                        <select id="tipoCuentaAgregar" class="form-select" [(ngModel)]="clienteSave.tipoCuenta"
+                            name="tipoCuenta">
+                            <option selected>Seleccion una tipo de Cuenta</option>
+                            <option>{{tipocuenta.descripcion}}</option>
+                        </select>
+                    </div>
+                    <div class="col-6 mb-3">
+
+                    </div>
+                    <div class="col-3 mb-3">
+                        <button type="submit" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+                    </div>
+                    <div class="col-3 mb-3">
+                        <button type="submit" class="btn btn-success" data-bs-dismiss="modal"
+                            (click)="guardarCliente(formaAregarCliente)">Aceptar</button>
+                    </div>
+
                 </form>
             </div>
         </div>
-
     </div>
-    <hr>
-    <div class="container-auto">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">First</th>
-                    <th scope="col">Last</th>
-                    <th scope="col">Handle</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                </tr>
-                <tr>
-                    <th scope="row">3</th>
-                    <td colspan="2">Larry the Bird</td>
-                    <td>@twitter</td>
-                </tr>
-            </tbody>
-        </table>
+</div>
+
+<!--Modal de Editar-->
+<div class="modal fade" id="modalEditarCliente" tabindex="-1" aria-labelledby="modalEditarClienteLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable  ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalEditarClienteLabel">Agregar Cliente</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="container">
+                <form class="row g-3" #formaActulizarCliente="ngForm">
+                    <div class="col-12">
+                        <label for="nombreEditar" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="nombreEditar" [(ngModel)]="clienteSave.nombre"
+                            name="nombre">
+                    </div>
+                    <div class="col-12">
+                        <label for="apellidoEditar" class="form-label">Apellido</label>
+                        <input type="text" class="form-control" id="apellidoEditar" [(ngModel)]="clienteSave.apellido"
+                            name="apellido">
+                    </div>
+                    <div class="col-12">
+                        <label for="telefonoEditar" class="form-label">Telefono</label>
+                        <input type="text" class="form-control" id="telefonoEditar" [(ngModel)]="clienteSave.telefono"
+                            name="telefono">
+                    </div>
+                    <div class="col-12">
+                        <label for="correoEditar" class="form-label">Correo</label>
+                        <input type="text" class="form-control" id="correoEditar" [(ngModel)]="clienteSave.correo"
+                            name="correo">
+                    </div>
+                    <div class="col-md-6 mb-6" *ngFor="let tipocuenta of tipoCuentas">
+                        <label for="tipoCuentaEditar" class="form-label">Selecciona Cuenta</label>
+                        <select id="tipoCuentaEditar" class="form-select" [(ngModel)]="clienteSave.tipoCuenta"
+                            name="tipoCuenta">
+                            <option selected>Seleccion una tipo de Cuenta</option>
+                            <option>{{tipocuenta.descripcion}}</option>
+                        </select>
+                    </div>
+                    <div class="col-6 mb-3">
+
+                    </div>
+                    <div class="col-3 mb-3">
+                        <button type="submit" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+                    </div>
+                    <div class="col-3 mb-3">
+                        <button type="submit" class="btn btn-success" data-bs-dismiss="modal"
+                            (click)="actualizarInventario(formaActulizarCliente)">Aceptar</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
     </div>
 </div>
