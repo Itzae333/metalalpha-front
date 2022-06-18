@@ -9,7 +9,7 @@ export class TipoCuentaService{
     constructor(
         public _http:HttpClient
     ){
-        this.url=global.url+'tipos-cuenta/';
+        this.url=global.url+'tipos-cuentas/';
     }
 
     index():Observable<any>{
@@ -27,6 +27,6 @@ export class TipoCuentaService{
     }
 
     actualizarTipoCuenta(id:any,tipoCuenta:any):Observable<any>{
-        return this._http.get(this.url+id,tipoCuenta)
+        return this._http.put(this.url+id,tipoCuenta)
     }
 }

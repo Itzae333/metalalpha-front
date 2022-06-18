@@ -9,7 +9,7 @@ export class NivelUsuarioService{
     constructor(
         public _http:HttpClient
     ){
-        this.url=global.url+'niveles-usuario/';
+        this.url=global.url+'niveles-usuarios/';
     }
 
     index():Observable<any>{
