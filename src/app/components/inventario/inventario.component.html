@@ -18,7 +18,6 @@
         <div class="container-fluid ">
             <div class="row g-5 ">
                 <div class="col-2">
-
                 </div>
                 <div class="col-4">
                     <div class="form-check form-check-inline" *ngIf="nivel==1">
@@ -42,10 +41,16 @@
                         <label class="form-check-label" for="inlineRadio2">Santa</label>
                     </div>
                 </div>
-                <div class="col-4">
+                <div class="col-5">
                     <form class="d-flex">
                         <input class="form-control me-2 gradient-buscar" id="buscar" name="buscar" [(ngModel)]="buscar">
                         <button class="button-78" role="button" (click)="buscarInventario(buscar)">Buscar</button>
+                    </form>
+                </div>
+                <div class="col-1">
+                    <form class="d-flex">
+                        <i class="fa fa-shopping-cart fa-2x" aria-hidden="true" data-bs-toggle="modal"
+                        data-bs-target="#modalVerCarrito"></i>
                     </form>
                 </div>
             </div>
@@ -73,69 +78,71 @@
         <hr>
         <div class="container-auto ">
             <div class="table-responsive-lg">
-            <table class="table table-dark">
-                <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Nombre</th>
-                        <th scope="col">Medidas</th>
-                        <th scope="col">Tipos</th>
-                        <th scope="col" *ngIf="fabricafiltro==1">Precio</th>
-                        <th scope="col" *ngIf="fabricafiltro==1">Mayoreo</th>
-                        <th scope="col" *ngIf="fabricafiltro==1">Credito</th>
-                        <th scope="col" *ngIf="fabricafiltro==1">No Credito</th>
-                        <th scope="col" *ngIf="fabricafiltro==1">Puebla</th>
-                        <th scope="col" *ngIf="fabricafiltro==2">Precio</th>
-                        <th scope="col" *ngIf="fabricafiltro==3">Precio</th>
-                        <th scope="col">Existencias</th>
-                        <th scope="col">Color</th>
-                        <th scope="col">Manufactura</th>
-                        <th scope="col">Tipo Material</th>
-                        <th scope="col">Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let item of inventarios">
-                        <td *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion">
-                            {{item.id}}</td>
-                        <td *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion">
-                            {{item.producto.nombre}}</td>
-                        <td *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion">
-                            {{item.producto.medidas}}</td>
-                        <td *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion">
-                            {{item.producto.tipo}}</td>
-                        <td
-                            *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion && fabricafiltro==1">
-                            {{item.producto.precio_public}}</td>
-                        <td
-                            *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion && fabricafiltro==1">
-                            {{item.producto.precio_mayoreo}}</td>
-                        <td
-                            *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion && fabricafiltro==1">
-                            {{item.producto.precio_credito}}</td>
-                        <td
-                            *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion && fabricafiltro==1">
-                            {{item.producto.precio_creditoNo}}</td>
-                        <td
-                            *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion && fabricafiltro==1">
-                            {{item.producto.precio_puebla}}</td>
-                        <td
-                            *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion && fabricafiltro==2">
-                            {{item.producto.precio_tecamachalco}}</td>
-                        <td
-                            *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion && fabricafiltro==3">
-                            {{item.producto.precio_tepeaca}}</td>
-                        <td *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion">
-                            {{item.existencias}}</td>
-                        <td *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion">
-                            {{item.color.descripcion}}</td>
-                        <td *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion">
-                            {{item.fabrica.descripcion}}</td>
-                        <td *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion">
-                            {{item.producto.pintura.descripcion}}</td>
-                        <td *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion">
-                            <i class="fa fa-pencil fa-1x mb-3 " aria-hidden="true" data-bs-toggle="modal"
-                                data-bs-target="#modelEditarInventario" (click)="selectEdit(
+                <table class="table table-dark">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Medidas</th>
+                            <th scope="col">Tipos</th>
+                            <th scope="col" *ngIf="fabricafiltro==1">Precio</th>
+                            <th scope="col" *ngIf="fabricafiltro==1">Mayoreo</th>
+                            <th scope="col" *ngIf="fabricafiltro==1">Credito</th>
+                            <th scope="col" *ngIf="fabricafiltro==1">No Credito</th>
+                            <th scope="col" *ngIf="fabricafiltro==1">Puebla</th>
+                            <th scope="col" *ngIf="fabricafiltro==2">Precio</th>
+                            <th scope="col" *ngIf="fabricafiltro==3">Precio</th>
+                            <th scope="col">Existencias</th>
+                            <th scope="col">Color</th>
+                            <th scope="col">Manufactura</th>
+                            <th scope="col">Tipo Material</th>
+                            <th scope="col">Acciones</th>
+                            <th scope="col">Agregar al Carrito</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of inventarios">
+                            <td *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion">
+                                {{item.id}}</td>
+                            <td *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion">
+                                {{item.producto.nombre}}</td>
+                            <td *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion">
+                                {{item.producto.medidas}}</td>
+                            <td *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion">
+                                {{item.producto.tipo}}</td>
+                            <td
+                                *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion && fabricafiltro==1">
+                                {{item.producto.precio_public}}</td>
+                            <td
+                                *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion && fabricafiltro==1">
+                                {{item.producto.precio_mayoreo}}</td>
+                            <td
+                                *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion && fabricafiltro==1">
+                                {{item.producto.precio_credito}}</td>
+                            <td
+                                *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion && fabricafiltro==1">
+                                {{item.producto.precio_creditoNo}}</td>
+                            <td
+                                *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion && fabricafiltro==1">
+                                {{item.producto.precio_puebla}}</td>
+                            <td
+                                *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion && fabricafiltro==2">
+                                {{item.producto.precio_tecamachalco}}</td>
+                            <td
+                                *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion && fabricafiltro==3">
+                                {{item.producto.precio_tepeaca}}</td>
+                            <td *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion">
+                                {{item.existencias}}</td>
+                            <td *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion">
+                                {{item.color.descripcion}}</td>
+                            <td *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion">
+                                {{item.fabrica.descripcion}}</td>
+                            <td *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion">
+                                {{item.producto.pintura.descripcion}}</td>
+                            <td *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion">
+                                <i class="fa fa-pencil fa-1x mb-3 " aria-hidden="true" data-bs-toggle="modal"
+                                    data-bs-target="#modelEditarInventario" (click)="selectEdit(
                                 item.id,
                                 item.producto.nombre,
                                 item.producto.medidas,
@@ -146,14 +153,52 @@
                                 item.producto.pintura.descripcion,
                                 item.producto.id
                             )"></i>
-                            <i class="fa fa-trash fa-1x" aria-hidden="true" data-bs-toggle="modal"
-                                data-bs-target="#modalEliminar" (click)="selectId(item.id)"></i>
-                        </td>
-                </tbody>
-            </table>
-        </div>
+
+                                <i class="fa fa-trash fa-1x mb-3" aria-hidden="true" data-bs-toggle="modal"
+                                    data-bs-target="#modalEliminar" (click)="selectId(item.id)"></i>
+                            </td>
+                            <td *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion">
+                                <i class="fa fa-address-book fa-1x" aria-hidden="true" data-bs-toggle="modal"
+                                    data-bs-target="#modalAgregarCarrito" (click)="selectId(item.id)"></i>
+                            </td>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </section>
+</div>
+
+<!--Modal de Agregar Al Carrito-->
+<div class="modal fade" id="modalAgregarCarrito" tabindex="-1" aria-labelledby="modalAgregarCarritoLabel"
+    aria-hidden="true">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalAgregarCarritoLabel">Agregar Al carrito</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="container">
+                <form class="row g-3" #formAgregarcarrito="ngForm">
+                    <div class="col-12">
+                        <label for="cantidad" class="form-label">Cantidad</label>
+                        <input type="text" class="form-control" id="cantidad" [(ngModel)]="inventarioSave.existencias"
+                            name="cantidad">
+                    </div>
+                    <div class="col-6 mb-3">
+
+                    </div>
+                    <div class="col-3 mb-3">
+                        <button type="submit" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+                    </div>
+                    <div class="col-3 mb-3">
+                        <button type="submit" class="btn btn-success" data-bs-dismiss="modal"
+                            (click)="agregarCarrito(formAgregarcarrito)">Aceptar</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!--Modal de Eliminar-->
@@ -240,6 +285,107 @@
                     </div>
 
                 </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--Modal de Ver carrito-->
+<div class="modal fade" id="modalVerCarrito" tabindex="-1" aria-labelledby="modalVerCarritoLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalVerCarritoLabel">Carrito Compras</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="container-auto ">
+                <div class="table-responsive-lg">
+                <table class="table table-dark">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Medidas</th>
+                            <th scope="col">Tipos</th>
+                            <th scope="col" *ngIf="fabricafiltro==1">Precio</th>
+                            <th scope="col" *ngIf="fabricafiltro==1">Precio</th>
+                            <th scope="col" *ngIf="fabricafiltro==1">Precio</th>
+                            <th scope="col" *ngIf="fabricafiltro==1">Precio</th>
+                            <th scope="col" *ngIf="fabricafiltro==1">Puebla</th>
+                            <th scope="col" *ngIf="fabricafiltro==2">Precio</th>
+                            <th scope="col" *ngIf="fabricafiltro==3">Precio</th>
+                            <th scope="col">Cantidad</th>
+                            <th scope="col">Total</th>
+                            <th scope="col">Manufactura</th>
+                            <th scope="col">Tipo Material</th>
+                            <th scope="col">Acciones</th>
+                            <th scope="col">Agregar al Carrito</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of inventarios">
+                            <td *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion">
+                                {{item.id}}</td>
+                            <td *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion">
+                                {{item.producto.nombre}}</td>
+                            <td *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion">
+                                {{item.producto.medidas}}</td>
+                            <td *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion">
+                                {{item.producto.tipo}}</td>
+                            <td
+                                *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion && fabricafiltro==1">
+                                {{item.producto.precio_public}}</td>
+                            <td
+                                *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion && fabricafiltro==1">
+                                {{item.producto.precio_mayoreo}}</td>
+                            <td
+                                *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion && fabricafiltro==1">
+                                {{item.producto.precio_credito}}</td>
+                            <td
+                                *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion && fabricafiltro==1">
+                                {{item.producto.precio_creditoNo}}</td>
+                            <td
+                                *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion && fabricafiltro==1">
+                                {{item.producto.precio_puebla}}</td>
+                            <td
+                                *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion && fabricafiltro==2">
+                                {{item.producto.precio_tecamachalco}}</td>
+                            <td
+                                *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion && fabricafiltro==3">
+                                {{item.producto.precio_tepeaca}}</td>
+                            <td *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion">
+                                {{item.existencias}}</td>
+                            <td *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion">
+                                {{item.color.descripcion}}</td>
+                            <td *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion">
+                                {{item.fabrica.descripcion}}</td>
+                            <td *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion">
+                                {{item.producto.pintura.descripcion}}</td>
+                            <td *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion">
+                                <i class="fa fa-pencil fa-1x mb-3 " aria-hidden="true" data-bs-toggle="modal"
+                                    data-bs-target="#modelEditarInventario" (click)="selectEdit(
+                                    item.id,
+                                    item.producto.nombre,
+                                    item.producto.medidas,
+                                    item.producto.tipo,
+                                    item.existencias,
+                                    item.color.descripcion,
+                                    item.fabrica.descripcion,
+                                    item.producto.pintura.descripcion,
+                                    item.producto.id
+                                )"></i>
+                                
+                                <i class="fa fa-trash fa-1x mb-3" aria-hidden="true" data-bs-toggle="modal"
+                                    data-bs-target="#modalEliminar" (click)="selectId(item.id)"></i>
+                            </td>
+                            <td *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion">
+                                <i class="fa fa-address-book fa-1x" aria-hidden="true" data-bs-toggle="modal"
+                                    data-bs-target="#modalAgregarCarrito" (click)="selectId(item.id)"></i>
+                            </td>
+                    </tbody>
+                </table>
+            </div>
             </div>
         </div>
     </div>

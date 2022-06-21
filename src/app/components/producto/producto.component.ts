@@ -197,7 +197,6 @@ export class ProductoComponent implements OnInit {
           colorResponse => {
             this.inventarioSave.color = colorResponse;
             this.inventarioSave.fabrica = this.usuario.fabrica;
-            console.log(this.inventarioSave);
             this._inventarioService.store(this.inventarioSave).subscribe(
               resul => {
                 this.estatus = "exito";

@@ -1,38 +1,53 @@
 import { Component, OnInit } from '@angular/core';
 import { isEmptyObject } from 'jquery';
+import { Carrito } from 'src/app/models/carrito';
+import { Cliente } from 'src/app/models/cliente';
 import { Color } from 'src/app/models/color';
+import { Estatus_Venta } from 'src/app/models/estatu_venta';
 import { Fabrica } from 'src/app/models/fabrica';
 import { Inventario } from 'src/app/models/inventario';
 import { Pintura } from 'src/app/models/pintura';
 import { Producto } from 'src/app/models/producto';
+import { Tipo_Cuenta } from 'src/app/models/tipo_cuenta';
+import { Venta } from 'src/app/models/venta';
+import { CarritoService } from 'src/app/service/carrito.service';
 import { ColorService } from 'src/app/service/color.service';
 import { FabricaService } from 'src/app/service/fabrica.service';
 import { InventarioService } from 'src/app/service/inventario.service';
 import { PinturaService } from 'src/app/service/pintura.service';
 import { ProductoService } from 'src/app/service/producto.service';
 import { UsuarioService } from 'src/app/service/usuario.service';
+import { VentaService } from 'src/app/service/venta.service';
 
 @Component({
   selector: 'app-inventario',
   templateUrl: './inventario.component.html',
   styleUrls: ['./inventario.component.css'],
-  providers: [UsuarioService, ProductoService, FabricaService, PinturaService, ColorService, InventarioService]
+  providers: [UsuarioService, ProductoService, FabricaService, PinturaService, ColorService, InventarioService,CarritoService,VentaService]
 })
 export class InventarioComponent implements OnInit {
   public usuario: any;
   public producto: any;
+  public carrito: any;
+  public venta: any;
   public productoEdit: any;
   public inventario: any;
   public productos: Producto[];
   public fabricas: Fabrica[];
   public pinturas: Pintura[];
   public inventarios: Inventario[];
+  public carritos: Carrito[];
   public colores: Color[];
   public fabricaSave: Fabrica;
   public colorSave: Color;
+  public clienteSave: Cliente;
+  public tipoCuentaSave: Tipo_Cuenta;
   public pinturaSave: Pintura;
   public productoSave: Producto;
+  public estatusVentaSave: Estatus_Venta;
   public inventarioSave: Inventario;
+  public ventaSave: Venta;
+  public carritoSave: Carrito;
   public nivel: any;
   public estatus: string;
   public mensaje: string;
@@ -44,7 +59,9 @@ export class InventarioComponent implements OnInit {
     private _fabricaService: FabricaService,
     private _pinturaService: PinturaService,
     private _colorService: ColorService,
-    private _inventarioService: InventarioService
+    private _inventarioService: InventarioService,
+    private _ventaService: VentaService,
+    private _carritoService: CarritoService
   ) {
     this.buscar = "";
     this.estatus = "";
@@ -53,12 +70,18 @@ export class InventarioComponent implements OnInit {
     this.colores = [];
     this.fabricas = [];
     this.pinturas = [];
-    this.inventarios = [];
+    this.inventarios = [];3
+    this.carritos = [];
     this.colorSave = new Color(0, true, '');
+    this.estatusVentaSave = new Estatus_Venta(1, true, 'apertura');
     this.fabricaSave = new Fabrica(0, true, '');
     this.pinturaSave = new Pintura(0, true, '');
+    this.tipoCuentaSave = new Tipo_Cuenta(1, true, 'publico');
+    this.clienteSave = new Cliente(1, true, 'mostrador', 'mostrador', 'mostrador', 'mostrador', this.tipoCuentaSave)
     this.productoSave = new Producto(0, '', '', '', 0, 0, 0, 0, 0, 0, 0, true, this.pinturaSave, this.fabricaSave);
     this.inventarioSave = new Inventario(0, true, 0, this.productoSave, this.colorSave, this.fabricaSave);
+    this.ventaSave=new Venta(0,true,0,0,0,0,this.clienteSave,this.estatusVentaSave)
+    this.carritoSave = new Carrito(0,true,0,this.inventarioSave,this.ventaSave);
   }
 
   ngOnInit(): void {
@@ -208,11 +231,13 @@ export class InventarioComponent implements OnInit {
                   result => {
                     this.estatus = "exito";
                     this.mensaje = "Inventario Actualizado con exito";
+                    localStorage.removeItem('idInventario')
                     this.ngOnInit();
                   },
                   error => {
                     this.estatus = "error";
                     this.mensaje = "Error al Actualizar el inventario"
+                    localStorage.removeItem('idInventario')
                   }
                 )
               }
@@ -224,10 +249,70 @@ export class InventarioComponent implements OnInit {
 
   }
 
-  tempo = function delay(n: any) {
-    return new Promise(function (resolve) {
-      setTimeout(resolve, n * 1000);
-    });
+ 
+
+  agregarCarrito(form:any){
+    var cantidad = $('#cantidad').val();
+    let idInv = localStorage.getItem('idInventario');
+    let idVen = localStorage.getItem('idVenta');
+    if(!isEmptyObject(idVen)){
+      this._ventaService.getIdVenta(idVen).subscribe(
+        ventaresponse=>{
+          this.venta=ventaresponse;
+          this.carrito=this.carritoSave;
+          this.carrito.inventario.id=idInv;
+          this.carrito.venta.id=this.venta.id;
+          this.carrito.cantidad=cantidad;
+          this._carritoService.store(this.carrito).subscribe(
+            result => {
+              this.estatus = "exito";
+              this.mensaje = "Producto agregado al carrito con exito";
+              localStorage.removeItem('idInventario')
+              this.ngOnInit();
+            },
+            error => {
+              this.estatus = "error";
+              this.mensaje = "Error al agregado el carrito"
+              localStorage.removeItem('idInventario')
+            }
+          )
+        }
+       )
+
+      
+    }else{
+      this._ventaService.store(this.ventaSave).subscribe(
+        ventaresponse=>{
+          this.venta=ventaresponse;
+          this.carrito=this.carritoSave;
+          this.carrito.inventario.id=idInv;
+          this.carrito.venta.id=this.venta.id;
+          this.carrito.cantidad=cantidad;
+          localStorage.setItem('idVenta', this.venta.id);
+          this._carritoService.store(this.carrito).subscribe(
+            result => {
+              this.estatus = "exito";
+              this.mensaje = "Producto agregado al carrito con exito";
+              localStorage.removeItem('idInventario')
+              this.ngOnInit();
+            },
+            error => {
+              this.estatus = "error";
+              this.mensaje = "Error al agregado el carrito"
+              localStorage.removeItem('idInventario')
+            }
+          )
+        }
+       )
+    }
+   
+  }
+
+  carritoVer(){
+    this._carritoService.index().subscribe(
+      data => {
+        this.carritos = data.content;
+      })
   }
 
 }
