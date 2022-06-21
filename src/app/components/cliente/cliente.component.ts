@@ -6,6 +6,7 @@ import { ClienteService } from 'src/app/service/cliente.service';
 import { TipoCuentaService } from 'src/app/service/tipo_cuenta.service';
 import { UsuarioService } from 'src/app/service/usuario.service';
 
+
 @Component({
   selector: 'app-cliente',
   templateUrl: './cliente.component.html',
