@@ -6,6 +6,7 @@ import { global } from "../helpers/global";
 @Injectable()
 export class ClienteService{
     public url;
+    public identity:any;
     constructor(
         public _http:HttpClient
     ){
@@ -28,5 +29,16 @@ export class ClienteService{
 
     actualizarCliente(id:any,cliente:any):Observable<any>{
         return this._http.put(this.url+id,cliente)
+    }
+
+    getIdentityCliente(){
+        let identity=JSON.parse(localStorage.getItem('cliente_venta')|| '{}');
+
+        if(identity && identity!="undefined"){
+            this.identity=identity;
+        }else{
+            this.identity=null;
+        }
+        return this.identity;
     }
 }

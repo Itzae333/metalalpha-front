@@ -22,11 +22,15 @@ export class CarritoService{
     getIdCarrito(id:any):Observable<any>{
         return this._http.get(this.url+id)
     }
-    getNombreCarrito(nombre:any):Observable<any>{
-        return this._http.get(this.url+'nombre/'+nombre)
+    getVentaCarrito(venta:any):Observable<any>{
+        return this._http.get(this.url+'venta/'+venta)
     }
 
     actualizarCarrito(id:any,carrito:any):Observable<any>{
         return this._http.put(this.url+id,carrito)
+    }
+
+    borrarProducto(id:any,idInv:any):Observable<any>{
+        return this._http.delete(this.url+'venta/'+id+'&'+idInv)
     }
 }

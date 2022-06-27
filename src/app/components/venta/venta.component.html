@@ -1,0 +1,279 @@
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+    <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
+        <path
+            d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+    </symbol>
+    <symbol id="info-fill" fill="currentColor" viewBox="0 0 16 16">
+        <path
+            d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z" />
+    </symbol>
+    <symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
+        <path
+            d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+    </symbol>
+</svg>
+
+<div class="container-flex">
+    <section class="vh-100 gradient-custom">
+        <div class="container-fluid ">
+            <div class="row g-5 ">
+                <div class="col-2">
+                </div>
+                <div class="col-4">
+                    <div class="form-check form-check-inline" *ngIf="nivel==1">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"
+                            value="option1">
+                        <label class="form-check-label" for="inlineRadio1">Todos</label>
+                    </div>
+                    <div class="form-check form-check-inline" *ngIf="nivel==1">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"
+                            value="option2">
+                        <label class="form-check-label" for="inlineRadio2">Virgen</label>
+                    </div>
+                    <div class="form-check form-check-inline" *ngIf="nivel==1">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"
+                            value="option2">
+                        <label class="form-check-label" for="inlineRadio2">Puebla</label>
+                    </div>
+                    <div class="form-check form-check-inline" *ngIf="nivel==1">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"
+                            value="option2">
+                        <label class="form-check-label" for="inlineRadio2">Santa</label>
+                    </div>
+                </div>
+                <div class="col-5">
+                    <form class="d-flex">
+                        <input class="form-control me-2 gradient-buscar" id="buscar" name="buscar" [(ngModel)]="buscar">
+                        <button class="button-78" role="button" (click)="buscarInventario(buscar)">Buscar</button>
+                    </form>
+                </div>
+                <div class="col-1">
+                    <form class="d-flex">
+                        <i class="fa fa-shopping-cart fa-2x" aria-hidden="true" data-bs-toggle="modal"
+                            data-bs-target="#modalVerCarrito" (click)="carritoVer()"></i>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-rigth ">
+            <div class="alert alert-success d-flex align-items-center col-6" role="alert" id="success"
+                *ngIf="estatus=='exito'">
+                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:">
+                    <use xlink:href="#check-circle-fill" />
+                </svg>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                <div>
+                    {{mensaje}}
+                </div>
+            </div>
+            <div class="alert alert-danger d-flex align-items-center" role="alert" *ngIf="estatus=='error'">
+                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:">
+                    <use xlink:href="#exclamation-triangle-fill" />
+                </svg>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                <div>
+                    {{mensaje}}
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="container-auto ">
+            <div class="table-responsive-lg">
+                <table class="table table-dark">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Medidas</th>
+                            <th scope="col">Tipos</th>
+                            <th scope="col" *ngIf="fabricafiltro==1  && clientefiltro==1">Precio</th>
+                            <th scope="col" *ngIf="fabricafiltro==1 && clientefiltro==2">Mayoreo</th>
+                            <th scope="col" *ngIf="fabricafiltro==1 && clientefiltro==3">Credito</th>
+                            <th scope="col" *ngIf="fabricafiltro==1 && clientefiltro==4">No Credito</th>
+                            <th scope="col" *ngIf="fabricafiltro==1 && clientefiltro==5">Puebla</th>
+                            <th scope="col" *ngIf="fabricafiltro==2 && clientefiltro==5">Precio</th>
+                            <th scope="col" *ngIf="fabricafiltro==3 && clientefiltro==6">Precio</th>
+                            <th scope="col">Existencias</th>
+                            <th scope="col">Color</th>
+                            <th scope="col">Manufactura</th>
+                            <th scope="col">Tipo Material</th>
+                            <th scope="col">Agregar al Carrito</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of inventarios">
+                            <td *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion">
+                                {{item.id}}</td>
+                            <td *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion">
+                                {{item.producto.nombre}}</td>
+                            <td *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion">
+                                {{item.producto.medidas}}</td>
+                            <td *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion">
+                                {{item.producto.tipo}}</td>
+                            <td *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion 
+                                && fabricafiltro==1 && clientefiltro==1">
+                                {{item.producto.precio_public | currency}}</td>
+                            <td *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion 
+                                && fabricafiltro==1 && clientefiltro==2">
+                                {{item.producto.precio_mayoreo | currency}}</td>
+                            <td *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion 
+                                && fabricafiltro==1 && clientefiltro==3">
+                                {{item.producto.precio_credito | currency}}</td>
+                            <td *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion 
+                                && fabricafiltro==1 && clientefiltro==4">
+                                {{item.producto.precio_creditoNo | currency}}</td>
+                            <td *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion 
+                                && fabricafiltro==1 && clientefiltro==5">
+                                {{item.producto.precio_puebla | currency}}</td>
+                            <td *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion 
+                                && fabricafiltro==2 && clientefiltro==5">
+                                {{item.producto.precio_tecamachalco | currency}}</td>
+                            <td *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion 
+                                && fabricafiltro==3 && clientefiltro==6">
+                                {{item.producto.precio_tepeaca | currency}}</td>
+                            <td *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion">
+                                {{item.existencias}}</td>
+                            <td *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion">
+                                {{item.color.descripcion}}</td>
+                            <td *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion">
+                                {{item.fabrica.descripcion}}</td>
+                            <td *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion">
+                                {{item.producto.pintura.descripcion}}</td>
+                            <td *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion">
+                                <i class="fa fa-address-book fa-1x" aria-hidden="true" data-bs-toggle="modal"
+                                    data-bs-target="#modalAgregarCarrito" (click)="selectId(item.id,
+                                    item.producto.precio_public,
+                                    item.producto.precio_mayoreo,
+                                    item.producto.precio_credito,
+                                    item.producto.precio_creditoNo ,
+                                    item.producto.precio_puebla, 
+                                    item.producto.precio_tecamachalco,
+                                    item.producto.precio_tepeaca )"></i>
+                            </td>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!--Modal de Eliminar-->
+<div class="modal fade" id="modalEliminar" tabindex="-1" aria-labelledby="modalEliminarLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalEliminarLabel">Confirma para su eliminacion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-success" data-bs-dismiss="modal"
+                    (click)="borrarProducto()">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalAgregarCarrito" tabindex="-1" aria-labelledby="modalAgregarCarritoLabel"
+    aria-hidden="true">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalAgregarCarritoLabel">Agregar Al carrito</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="container">
+                <form class="row g-3" #formAgregarcarrito="ngForm">
+                    <div class="col-12">
+                        <label for="cantidad_carrito" class="form-label">Cantidad</label>
+                        <input type="text" class="form-control" id="cantidad_carrito" (change)="actualizar_total()">
+                    </div>
+                    <div class="col-12">
+                        <label for="precio_carrito" class="form-label">Precio</label>
+                        <input type="text" class="form-control" id="precio_carrito" (change)="actualizar_total()">
+                    </div>
+                    <div class="col-12">
+                        <label for="total_carrito" class="form-label">Total</label>
+                        <input type="text" class="form-control" id="total_carrito"
+                            [(ngModel)]="inventarioSave.existencias" name="total_carrito">
+                    </div>
+                    <div class="col-6 mb-3">
+
+                    </div>
+                    <div class="col-3 mb-3">
+                        <button type="submit" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+                    </div>
+                    <div class="col-3 mb-3">
+                        <button type="submit" class="btn btn-success" data-bs-dismiss="modal"
+                            (click)="agregarCarrito(formAgregarcarrito)">Aceptar</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="modalVerCarrito" tabindex="-1" aria-labelledby="modalVerCarritoLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalVerCarritoLabel">Carrito</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="container responsive-lg">
+                <table class="table" >
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Medidas</th>
+                            <th scope="col">Tipos</th>
+                            <th scope="col">Cantidad</th>
+                            <th scope="col">Precio Neto</th>
+                            <th scope="col">Sub total</th>
+                            <th scope="col">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let carrito of carritos">
+                            <td>{{carrito.inventario.id}}</td>
+                            <td>{{carrito.inventario.producto.nombre}}</td>
+                            <td>{{carrito.inventario.producto.medidas}}</td>
+                            <td>{{carrito.inventario.producto.tipo}}</td>
+                            <td>{{carrito.cantidad}}</td>
+                            <td>{{carrito.precio_neto | currency}}</td>
+                            <td>{{carrito.total | currency}}</td>
+                            <td><i class="fa fa-pencil fa-1x mb-3 " aria-hidden="true" data-bs-toggle="modal"
+                                data-bs-target="#modelEditarProducto" ></i>
+                                <i class="fa fa-trash fa-1x" aria-hidden="true" data-bs-toggle="modal"
+                                data-bs-target="#modalEliminar" (click)="selectIdEliminar(carrito.inventario.id)"></i>
+                            </td>
+                        </tr>
+                        <tr >
+                            <td colspan="6" class="table-active" id="total_carrito">Total</td>
+                            <td> {{total | currency}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <hr>
+            <form class="row g-3" #formAgregarcarrito="ngForm">
+                <div class="col-3 mb-4">
+                  
+                </div>
+            <div class="col-3 mb-3">
+                <button type="submit" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+            <div class="col-3 mb-3">
+                <button type="submit" class="btn btn-success" data-bs-dismiss="modal"
+                    (click)="agregarCarrito(formAgregarcarrito)">Aceptar</button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>

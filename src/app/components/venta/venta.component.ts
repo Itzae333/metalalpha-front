@@ -1,15 +1,307 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, DoCheck, OnInit } from '@angular/core';
+import { isEmptyObject } from 'jquery';
+import { Carrito } from 'src/app/models/carrito';
+import { Cliente } from 'src/app/models/cliente';
+import { Color } from 'src/app/models/color';
+import { Estatus_Venta } from 'src/app/models/estatu_venta';
+import { Fabrica } from 'src/app/models/fabrica';
+import { Inventario } from 'src/app/models/inventario';
+import { Pintura } from 'src/app/models/pintura';
+import { Producto } from 'src/app/models/producto';
+import { Tipo_Cuenta } from 'src/app/models/tipo_cuenta';
+import { Venta } from 'src/app/models/venta';
+import { CarritoService } from 'src/app/service/carrito.service';
+import { ClienteService } from 'src/app/service/cliente.service';
+import { ColorService } from 'src/app/service/color.service';
+import { FabricaService } from 'src/app/service/fabrica.service';
+import { InventarioService } from 'src/app/service/inventario.service';
+import { PinturaService } from 'src/app/service/pintura.service';
+import { ProductoService } from 'src/app/service/producto.service';
+import { UsuarioService } from 'src/app/service/usuario.service';
+import { VentaService } from 'src/app/service/venta.service';
 
 @Component({
   selector: 'app-venta',
   templateUrl: './venta.component.html',
-  styleUrls: ['./venta.component.css']
+  styleUrls: ['./venta.component.css'],
+  providers: [UsuarioService, ProductoService, FabricaService, PinturaService,
+    ColorService, InventarioService, CarritoService, VentaService]
 })
 export class VentaComponent implements OnInit {
 
-  constructor() { }
+  public usuario: any;
+  public producto: any;
+  public carrito: any;
+  public venta: any;
+  public productoEdit: any;
+  public inventario: any;
+  public productos: Producto[];
+  public fabricas: Fabrica[];
+  public pinturas: Pintura[];
+  public inventarios: Inventario[];
+  public carritos: Carrito[];
+  public colores: Color[];
+  public fabricaSave: Fabrica;
+  public colorSave: Color;
+  public clienteSave: Cliente;
+  public tipoCuentaSave: Tipo_Cuenta;
+  public pinturaSave: Pintura;
+  public productoSave: Producto;
+  public estatusVentaSave: Estatus_Venta;
+  public inventarioSave: Inventario;
+  public ventaSave: Venta;
+  public carritoSave: Carrito;
+  public nivel: any;
+  public estatus: string;
+  public mensaje: string;
+  public fabricafiltro: any;
+  public clientefiltro: any;
+  public buscar: string;
+  public cliente: any;
+  public clientes: Cliente[];
+  public total: number;
+
+  constructor(
+    private _usuarioService: UsuarioService,
+    private _productoService: ProductoService,
+    private _fabricaService: FabricaService,
+    private _pinturaService: PinturaService,
+    private _colorService: ColorService,
+    private _inventarioService: InventarioService,
+    private _ventaService: VentaService,
+    private _carritoService: CarritoService,
+    private _clienteService: ClienteService,
+  ) {
+    const selectElement = document.querySelector('.cantidad');
+    this.buscar = "";
+    this.estatus = "";
+    this.mensaje = "";
+    this.productos = [];
+    this.total = 0;
+    this.colores = [];
+    this.fabricas = [];
+    this.pinturas = [];
+    this.inventarios = [];
+    this.clientes = [];
+    this.carritos = [];
+    this.colorSave = new Color(0, true, '');
+    this.estatusVentaSave = new Estatus_Venta(1, true, 'apertura');
+    this.fabricaSave = new Fabrica(0, true, '');
+    this.pinturaSave = new Pintura(0, true, '');
+    this.tipoCuentaSave = new Tipo_Cuenta(1, true, 'publico');
+    this.clienteSave = new Cliente(1, true, 'mostrador', 'mostrador', 'mostrador', 'mostrador', this.tipoCuentaSave)
+    this.productoSave = new Producto(0, '', '', '', 0, 0, 0, 0, 0, 0, 0, true, this.pinturaSave, this.fabricaSave);
+    this.inventarioSave = new Inventario(0, true, 0, this.productoSave, this.colorSave, this.fabricaSave);
+    this.ventaSave = new Venta(0, true, 0, 0, 0, 0, this.clienteSave, this.estatusVentaSave)
+    this.carritoSave = new Carrito(0, true, 0, 0, 0, this.inventarioSave, this.ventaSave);
+  }
+
+
+
 
   ngOnInit(): void {
+    this.loadUsuario();
+    this.index();
+    this.indexFabrica();
+    this.indexPintura();
+    this.indexColor();
   }
+
+
+  buscarInventario(id: any) {
+    if (isEmptyObject(id)) {
+      this.ngOnInit();
+    } else {
+      if (!isNaN(id)) {
+        this._inventarioService.getIdInventario(id).subscribe(
+          inventarioResponse => {
+            this.inventario = [inventarioResponse];
+            this.inventarios = this.inventario
+          }
+        )
+      } else {
+        console.log('Pendidante');
+      }
+    }
+  }
+
+  selectId(id: any, precio: any
+    , precioMayoreo: any
+    , precioCredito: any
+    , precioNoCredito: any
+    , precioPuebla: any
+    , Puebla: any
+    , Santa: any) {
+    localStorage.setItem('idInventario', id);
+
+    if (this.clientefiltro == 1) {
+      $('#precio_carrito').val(precio);
+    }
+    if (this.clientefiltro == 2) {
+      $('#precio_carrito').val(precioMayoreo);
+    }
+    if (this.clientefiltro == 3) {
+      $('#precio_carrito').val(precioCredito);
+    }
+    if (this.clientefiltro == 4) {
+      $('#precio_carrito').val(precioNoCredito);
+    }
+    if (this.clientefiltro == 5) {
+      $('#precio_carrito').val(precioPuebla);
+    }
+    if (this.clientefiltro == 5) {
+      $('#precio_carrito').val(Puebla);
+    }
+    if (this.clientefiltro == 6) {
+      $('#precio_carrito').val(Santa);
+    }
+  }
+
+  selectIdEliminar(id: any) {
+    localStorage.setItem('idInventario', id);
+  }
+
+
+
+  loadUsuario() {
+    this.usuario = this._usuarioService.getIdentity();
+    this.cliente = this._clienteService.getIdentityCliente();
+    if (!isEmptyObject(this.usuario)) {
+      if (this.usuario.nivelUsuario.descripcion == "administrador") {
+        this.nivel = 1;
+      }
+      if (this.usuario.fabrica.descripcion == "virgen") {
+        this.fabricafiltro = 1;
+      }
+      if (this.usuario.fabrica.descripcion == "puebla") {
+        this.fabricafiltro = 2;
+      }
+      if (this.usuario.fabrica.descripcion == "santa") {
+        this.fabricafiltro = 3;
+      }
+    }
+    if (!isEmptyObject(this.cliente)) {
+      if (this.cliente.tipoCuenta.descripcion == "Publico") {
+        this.clientefiltro = 1;
+      }
+      if (this.cliente.tipoCuenta.descripcion == "Mayoreo") {
+        this.clientefiltro = 2;
+      }
+      if (this.cliente.tipoCuenta.descripcion == "Credito") {
+        this.clientefiltro = 3;
+      }
+      if (this.cliente.tipoCuenta.descripcion == "NoCredito") {
+        this.clientefiltro = 4;
+      }
+      if (this.cliente.tipoCuenta.descripcion == "Puebla") {
+        this.clientefiltro = 5;
+      }
+      if (this.cliente.tipoCuenta.descripcion == "Puebla") {
+        this.clientefiltro = 6;
+      }
+    }
+  }
+
+
+  index() {
+    this._inventarioService.index().subscribe(
+      data => {
+        this.inventarios = data.content;
+      })
+  }
+  indexFabrica() {
+    this._pinturaService.index().subscribe(
+      data => {
+        this.pinturas = data.content;
+      })
+  }
+
+  indexColor() {
+    this._colorService.index().subscribe(
+      data => {
+        this.colores = data.content;
+      })
+  }
+  indexPintura() {
+    this._fabricaService.index().subscribe(
+      data => {
+        this.fabricas = data.content;
+      })
+  }
+
+  agregarCarrito(form: any) {
+    var cantidad = $('#cantidad_carrito').val();
+    var precio_neto = $('#precio_carrito').val();
+    var total = $('#total_carrito').val();
+    let idInv = localStorage.getItem('idInventario');
+
+    let idVen = localStorage.getItem('idVenta');
+    this._ventaService.getIdVenta(idVen).subscribe(
+      ventaresponse => {
+        this.venta = ventaresponse;
+        this.carrito = this.carritoSave;
+        this.carrito.inventario.id = idInv;
+        this.carrito.venta.id = this.venta.id;
+        this.carrito.cantidad = cantidad;
+        this.carrito.precio_neto = precio_neto;
+        this.carrito.total = total;
+        this._carritoService.store(this.carrito).subscribe(
+          result => {
+            this.estatus = "exito";
+            this.mensaje = "Producto agregado al carrito con exito";
+            localStorage.removeItem('idInventario')
+            this.ngOnInit();
+          },
+          error => {
+            this.estatus = "error";
+            this.mensaje = "Error al agregado el carrito"
+            localStorage.removeItem('idInventario')
+          }
+        )
+      }
+    )
+  }
+
+  carritoVer() {
+    let idVen = localStorage.getItem('idVenta');
+    this._carritoService.getVentaCarrito(idVen).subscribe(
+      data => {
+        this.carrito = data;
+        this.carritos = data;
+        this.total = this.carrito.reduce((
+          acc: any,
+          obj: any,
+        ) => acc + (obj.total),
+          0);
+      })
+  }
+
+  actualizar_total() {
+    let cantidad = $('#cantidad_carrito').val();
+    let precio = $('#precio_carrito').val();
+
+
+    const multiplicar = function (cantidad: any, precio: any) {
+      return cantidad * precio;
+    }
+
+    const total = multiplicar(cantidad, precio);
+
+    $('#total_carrito').val(total);
+
+  }
+
+  borrarProducto() {
+    let idInv = localStorage.getItem('idInventario');
+    let id = localStorage.getItem('idVenta');
+    this._carritoService.borrarProducto(id, idInv).subscribe(
+
+    )
+    this.estatus = "exito";
+    this.mensaje = "Producto eliminado";
+    localStorage.removeItem('idInventario')
+    this.ngOnInit();
+  }
+
 
 }

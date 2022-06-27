@@ -216,6 +216,7 @@ export class ProductoComponent implements OnInit {
     )
   }
 
+
   selectEdit = function (id: any,
     nombre: any,
     medidas: any,

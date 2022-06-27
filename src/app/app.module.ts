@@ -14,6 +14,7 @@ import { InventarioComponent } from './components/inventario/inventario.componen
 import { ClienteComponent } from './components/cliente/cliente.component';
 import { VentaComponent } from './components/venta/venta.component';
 import { ProductoComponent } from './components/producto/producto.component';
+import { RegistroventasComponent } from './components/registroventas/registroventas.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { ProductoComponent } from './components/producto/producto.component';
     InventarioComponent,
     ClienteComponent,
     VentaComponent,
-    ProductoComponent
+    ProductoComponent,
+    RegistroventasComponent
   ],
   imports: [
     AlertModule.forRoot(),
