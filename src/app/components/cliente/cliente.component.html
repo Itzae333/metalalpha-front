@@ -170,12 +170,12 @@
                         <input type="text" class="form-control" id="TipoAgregar" [(ngModel)]="clienteSave.correo"
                             name="correo">
                     </div>
-                    <div class="col-md-6 mb-6" *ngFor="let tipocuenta of tipoCuentas">
+                    <div class="col-md-6 mb-6" >
                         <label for="tipoCuentaAgregar" class="form-label">Selecciona Cuenta</label>
                         <select id="tipoCuentaAgregar" class="form-select" [(ngModel)]="clienteSave.tipoCuenta"
                             name="tipoCuenta">
                             <option selected>Seleccion una tipo de Cuenta</option>
-                            <option>{{tipocuenta.descripcion}}</option>
+                            <option *ngFor="let tipocuenta of tipoCuentas">{{tipocuenta.descripcion}}</option>
                         </select>
                     </div>
                     <div class="col-6 mb-3">
@@ -226,12 +226,12 @@
                         <input type="text" class="form-control" id="correoEditar" [(ngModel)]="clienteSave.correo"
                             name="correo">
                     </div>
-                    <div class="col-md-6 mb-6" *ngFor="let tipocuenta of tipoCuentas">
+                    <div class="col-md-6 mb-6" >
                         <label for="tipoCuentaEditar" class="form-label">Selecciona Cuenta</label>
                         <select id="tipoCuentaEditar" class="form-select" [(ngModel)]="clienteSave.tipoCuenta"
                             name="tipoCuenta">
                             <option selected>Seleccion una tipo de Cuenta</option>
-                            <option>{{tipocuenta.descripcion}}</option>
+                            <option *ngFor="let tipocuenta of tipoCuentas">{{tipocuenta.descripcion}}</option>
                         </select>
                     </div>
                     <div class="col-6 mb-3">

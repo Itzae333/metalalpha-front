@@ -1,0 +1,51 @@
+<div class='container'>
+    <div class='window'>
+        <div class='order-info'>
+            <div class='order-info-content'>
+                <h2>Carrito</h2>
+                <div class='line'></div>
+                <table class='order-table' *ngFor="let carrito of carritos">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <br> <span class='thin'>Nombre:   {{carrito.inventario.producto.nombre}}</span>
+                                <br> Medidas:   {{carrito.inventario.producto.medidas}}<br> 
+                                <span class='thin small'>Tipo:    {{carrito.inventario.producto.tipo}}<br><br></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class='price'>{{carrito.total | currency}}</div>
+                            </td>
+                            
+                        </tr>
+                    </tbody>
+                </table>
+                <div class='line'></div>
+                <div class='total'>
+                    <span style='float:left;'>
+                        TOTAL
+                    </span>
+                    <span style='float:right; text-align:right;'>
+                        {{total| currency}}
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class='credit-info'>
+            <div class='credit-info-content'>
+                <img src="./assets/logo_small.png" height='80'
+                    class='credit-card-image' id='credit-card-image'>
+                Recibo
+                <input class='input-field'>
+                Restan
+                <input class='input-field'>
+                Cambio
+                <input class='input-field'>
+                <button class='pay-btn'>Aceptar</button>
+
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -182,11 +182,13 @@ export class ClienteComponent implements OnInit {
           result => {
             this.estatus = "exito";
             this.mensaje = "Cliente Actualizado con exito";
+            localStorage.removeItem('idCliente')
             this.ngOnInit();
           },
           error => {
             this.estatus = "error";
             this.mensaje = "Error al Actualizar cliente"
+            localStorage.removeItem('idCliente')
           }
         )
       }

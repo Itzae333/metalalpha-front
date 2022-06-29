@@ -13,6 +13,7 @@ import { Venta } from 'src/app/models/venta';
 import { CarritoService } from 'src/app/service/carrito.service';
 import { ClienteService } from 'src/app/service/cliente.service';
 import { ColorService } from 'src/app/service/color.service';
+import { EstatusVentaService } from 'src/app/service/estatu_venta.service';
 import { FabricaService } from 'src/app/service/fabrica.service';
 import { InventarioService } from 'src/app/service/inventario.service';
 import { PinturaService } from 'src/app/service/pintura.service';
@@ -25,9 +26,12 @@ import { VentaService } from 'src/app/service/venta.service';
   templateUrl: './venta.component.html',
   styleUrls: ['./venta.component.css'],
   providers: [UsuarioService, ProductoService, FabricaService, PinturaService,
-    ColorService, InventarioService, CarritoService, VentaService]
+    ColorService, InventarioService, CarritoService, VentaService, EstatusVentaService]
 })
 export class VentaComponent implements OnInit {
+
+
+
 
   public usuario: any;
   public producto: any;
@@ -71,6 +75,7 @@ export class VentaComponent implements OnInit {
     private _ventaService: VentaService,
     private _carritoService: CarritoService,
     private _clienteService: ClienteService,
+    private _estatusVentaService: EstatusVentaService,
   ) {
     const selectElement = document.querySelector('.cantidad');
     this.buscar = "";
@@ -291,6 +296,21 @@ export class VentaComponent implements OnInit {
 
   }
 
+  actualizar_total_editar() {
+    let cantidad = $('#cantidad_editar').val();
+    let precio = $('#precio_editar').val();
+
+
+    const multiplicar = function (cantidad: any, precio: any) {
+      return cantidad * precio;
+    }
+
+    const total = multiplicar(cantidad, precio);
+
+    $('#total_editar').val(total);
+
+  }
+
   borrarProducto() {
     let idInv = localStorage.getItem('idInventario');
     let id = localStorage.getItem('idVenta');
@@ -301,6 +321,76 @@ export class VentaComponent implements OnInit {
     this.mensaje = "Producto eliminado";
     localStorage.removeItem('idInventario')
     this.ngOnInit();
+  }
+
+  selecIdEditarCarrito(idInv: any,
+    cantidad: any,
+    precio_neto: any,
+    total: any) {
+    $('#cantidad_editar').val(cantidad);
+    $('#precio_editar').val(precio_neto);
+    $('#total_editar').val(total);
+    let id = localStorage.getItem('idVenta');
+    this._carritoService.getVentaInventarioCarrito(id, idInv).subscribe(
+      carritoResponse => {
+        this.carrito = carritoResponse[0];
+        localStorage.setItem('idCarrito', this.carrito.id);
+      }
+    )
+  }
+
+  EditarCarrito() {
+    var cantidad = $('#cantidad_editar').val();
+    var precio_neto = $('#precio_editar').val();
+    var total = $('#total_editar').val();
+    let idCarrito = localStorage.getItem('idCarrito');
+    this._carritoService.getIdCarrito(idCarrito).subscribe(
+      carritoResponse => {
+        this.carrito = carritoResponse;
+        this.carrito.cantidad = cantidad;
+        this.carrito.precio_neto = precio_neto;
+        this.carrito.total = total;
+        this._carritoService.actualizarCarrito(idCarrito, this.carrito).subscribe(
+          result => {
+            this.estatus = "exito";
+            this.mensaje = "Producto actualizado al carrito con exito";
+            localStorage.removeItem('idCarrito')
+            this.ngOnInit();
+          },
+          error => {
+            this.estatus = "error";
+            this.mensaje = "Error al actualizado el carrito"
+            localStorage.removeItem('idCarrito')
+          }
+        )
+      }
+    )
+  }
+
+  pagarVenta(total: any) {
+    let idVenta = localStorage.getItem('idVenta');
+    this._ventaService.getIdVenta(idVenta).subscribe(
+      ventaresponse => {
+        this.venta = ventaresponse;
+        this._estatusVentaService.getIdEstatusVenta(2).subscribe(
+          esttausVentaResponse => {
+            this.venta.estatusVenta = esttausVentaResponse;
+            this.venta.total = total;
+            console.log(this.venta);
+            this._ventaService.actualizarVenta(idVenta,this.venta).subscribe(
+              resuklt => {
+                
+              },
+              error => {
+                this.estatus = "error";
+                this.mensaje = "Error al cerrar el ticket el carrito"
+                localStorage.removeItem('idCarrito')
+              }
+            )
+          }
+        )
+      }
+    )
   }
 
 

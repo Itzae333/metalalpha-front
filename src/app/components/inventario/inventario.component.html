@@ -205,20 +205,20 @@
                         <input type="text" class="form-control" id="tipoEditar"
                             [(ngModel)]="inventarioSave.producto.tipo" name="tipo" disabled>
                     </div>
-                    <div class="col-md-6 mb-6" *ngFor="let pintura of pinturas">
+                    <div class="col-md-6 mb-6" >
                         <label for="pinturaEditar" class="form-label">Selecciona Material</label>
                         <select id="pinturaEditar" class="form-select" [(ngModel)]="inventarioSave.producto.pintura"
                             name="pintura" disabled>
                             <option selected>Seleccion un Material</option>
-                            <option>{{pintura.descripcion}}</option>
+                            <option *ngFor="let pintura of pinturas">{{pintura.descripcion}}</option>
                         </select>
                     </div>
-                    <div class="col-md-6 mb-6" *ngFor="let fabrica of fabricas">
+                    <div class="col-md-6 mb-6" >
                         <label for="fabricaEditar" class="form-label">Lugar de Manufactura</label>
                         <select id="fabricaEditar" class="form-select" [(ngModel)]="inventarioSave.fabrica"
                             name="fabrica" disabled>
                             <option selected>Seleccion Fabrica</option>
-                            <option>{{fabrica.descripcion}}</option>
+                            <option *ngFor="let fabrica of fabricas"> {{fabrica.descripcion}}</option>
                         </select>
                     </div>
                     <div class="col-12">
@@ -226,11 +226,11 @@
                         <input type="text" class="form-control" id="existenciasEditar"
                             [(ngModel)]="inventarioSave.existencias" name="tipo">
                     </div>
-                    <div class="col-md-12 mb-6" *ngFor="let color of colores">
+                    <div class="col-md-12 mb-6" >
                         <label for="colorEditar" class="form-label">Selecciona Color</label>
                         <select id="colorEditar" class="form-select" [(ngModel)]="inventarioSave.color" name="color">
                             <option selected>Seleccion un Color</option>
-                            <option>{{color.descripcion}}</option>
+                            <option *ngFor="let color of colores">{{color.descripcion}}</option>
                         </select>
                     </div>
 

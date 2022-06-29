@@ -26,6 +26,10 @@ export class CarritoService{
         return this._http.get(this.url+'venta/'+venta)
     }
 
+    getVentaInventarioCarrito(id:any,idInv:any):Observable<any>{
+        return this._http.get(this.url+'venta/inventario/'+id+'&'+idInv)
+    }
+
     actualizarCarrito(id:any,carrito:any):Observable<any>{
         return this._http.put(this.url+id,carrito)
     }

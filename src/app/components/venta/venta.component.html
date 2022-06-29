@@ -176,6 +176,45 @@
     </div>
 </div>
 
+<div class="modal fade" id="modalEditarCarrito" tabindex="-1" aria-labelledby="modalEditarCarritoLabel"
+    aria-hidden="true">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalEditarCarritoLabel">Editar Al carrito</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="container">
+                <form class="row g-3" #formEditarCarrito="ngForm">
+                    <div class="col-12">
+                        <label for="cantidad_editar" class="form-label">Cantidad</label>
+                        <input type="text" class="form-control" id="cantidad_editar" (change)="actualizar_total_editar()">
+                    </div>
+                    <div class="col-12">
+                        <label for="precio_editar" class="form-label">Precio</label>
+                        <input type="text" class="form-control" id="precio_editar" (change)="actualizar_total_editar()">
+                    </div>
+                    <div class="col-12">
+                        <label for="total_editar" class="form-label">Total</label>
+                        <input type="text" class="form-control" id="total_editar">
+                    </div>
+                    <div class="col-6 mb-3">
+
+                    </div>
+                    <div class="col-3 mb-3">
+                        <button type="submit" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+                    </div>
+                    <div class="col-3 mb-3">
+                        <button type="submit" class="btn btn-success" data-bs-dismiss="modal"
+                            (click)="EditarCarrito()">Aceptar</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="modalAgregarCarrito" tabindex="-1" aria-labelledby="modalAgregarCarritoLabel"
     aria-hidden="true">
     <div class="modal-dialog ">
@@ -222,10 +261,12 @@
     <div class="modal-dialog modal-lg ">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="modalVerCarritoLabel">Carrito</h5>
+                <h5 class="modal-title" id="modalVerCarritoLabel">Carrito del cliente: {{cliente.nombre +' '+ cliente.apellido}}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="container responsive-lg">
+                
+                <hr>
                 <table class="table" >
                     <thead>
                         <tr>
@@ -249,7 +290,10 @@
                             <td>{{carrito.precio_neto | currency}}</td>
                             <td>{{carrito.total | currency}}</td>
                             <td><i class="fa fa-pencil fa-1x mb-3 " aria-hidden="true" data-bs-toggle="modal"
-                                data-bs-target="#modelEditarProducto" ></i>
+                                data-bs-target="#modalEditarCarrito" (click)="selecIdEditarCarrito(carrito.inventario.id,
+                                carrito.cantidad,
+                                carrito.precio_neto,
+                                carrito.total)"></i>
                                 <i class="fa fa-trash fa-1x" aria-hidden="true" data-bs-toggle="modal"
                                 data-bs-target="#modalEliminar" (click)="selectIdEliminar(carrito.inventario.id)"></i>
                             </td>
@@ -271,7 +315,7 @@
             </div>
             <div class="col-3 mb-3">
                 <button type="submit" class="btn btn-success" data-bs-dismiss="modal"
-                    (click)="agregarCarrito(formAgregarcarrito)">Aceptar</button>
+                    (click)="pagarVenta(total)">Aceptar</button>
             </div>
         </form>
         </div>

@@ -77,7 +77,6 @@ export class AppComponent implements DoCheck {
     if (isEmptyObject(this.clienteBuscar)) {
       
     } else {
-      console.log(this.clienteBuscar)
       if (!isNaN(this.clienteBuscar)) {
         this._clienteService.getIdCliente(this.clienteBuscar).subscribe(
           clienteResponse => {

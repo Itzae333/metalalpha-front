@@ -190,11 +190,11 @@
                         <input type="text" class="form-control" id="existencias"
                             [(ngModel)]="inventarioSave.existencias" name="existencias">
                     </div>
-                    <div class="col-md-6 mb-6" *ngFor="let color of colores">
+                    <div class="col-md-6 mb-6" >
                         <label for="fabricaAgregar" class="form-label">Color</label>
                         <select id="fabricaAgregar" class="form-select" [(ngModel)]="inventarioSave.color" name="color">
                             <option selected>Seleccion Color</option>
-                            <option>{{color.descripcion}}</option>
+                            <option *ngFor="let color of colores">{{color.descripcion}}</option>
                         </select>
                     </div>
                     <div class="col-6 mb-3">
@@ -274,20 +274,20 @@
                         <input type="text" class="form-control" id="santaAgregar"
                             [(ngModel)]="productoSave.precio_tepeaca" name="precio_tepeaca">
                     </div>
-                    <div class="col-md-6 mb-6" *ngFor="let pintura of pinturas">
+                    <div class="col-md-6 mb-6" >
                         <label for="pinturaAgregar" class="form-label">Selecciona Material</label>
                         <select id="pinturaAgregar" class="form-select" [(ngModel)]="productoSave.pintura"
                             name="pintura">
                             <option selected>Seleccion un Material</option>
-                            <option>{{pintura.descripcion}}</option>
+                            <option *ngFor="let pintura of pinturas">{{pintura.descripcion}}</option>
                         </select>
                     </div>
-                    <div class="col-md-6 mb-6" *ngFor="let fabrica of fabricas">
+                    <div class="col-md-6 mb-6" >
                         <label for="fabricaAgregar" class="form-label">Lugar de Manufactura</label>
                         <select id="fabricaAgregar" class="form-select" [(ngModel)]="productoSave.fabrica"
                             name="fabrica">
                             <option selected>Seleccion Fabrica</option>
-                            <option>{{fabrica.descripcion}}</option>
+                            <option *ngFor="let fabrica of fabricas">{{fabrica.descripcion}}</option>
                         </select>
                     </div>
                     <div class="col-6 mb-3">
@@ -368,21 +368,22 @@
                         <input type="text" class="form-control" id="santaEditar" [(ngModel)]="productoSave.precio_tepeaca"
                         name="precio_tepeaca">
                     </div>
-                    <div class="col-md-6 mb-6" *ngFor="let pintura of pinturas">
+                    <div class="col-md-6 mb-6" >
                         <label for="pinturaEditar" class="form-label">Selecciona Material</label>
                         <select id="pinturaEditar" class="form-select" [(ngModel)]="productoSave.pintura"
-                        name="pintura">
+                        name="pintura" >
                             <option selected>Seleccion un Material</option>
-                            <option>{{pintura.descripcion}}</option>
+                            <option *ngFor="let pintura of pinturas">{{pintura.descripcion}}</option>
                         </select>
                     </div>
-                    <div class="col-md-6 mb-6" *ngFor="let fabrica of fabricas">
-                        <label for="fabricaEditar" class="form-label">Lugar de Manufactura</label>
+                    <div class="col-md-6 mb-6" >
+                        <label for="fabricaEditar" class="form-label">Selecciona Manufactura</label>
                         <select id="fabricaEditar" class="form-select" [(ngModel)]="productoSave.fabrica"
-                        name="fabrica">
-                            <option selected>Seleccion Fabrica</option>
-                            <option>{{fabrica.descripcion}}</option>
+                        name="fabrica" >
+                            <option selected>Seleccion un Manufactura</option>
+                            <option *ngFor="let fabrica of fabricas">{{fabrica.descripcion}}</option>
                         </select>
+                        
                     </div>
                     <div class="col-6 mb-3">
 

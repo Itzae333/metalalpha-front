@@ -15,6 +15,7 @@ import { ClienteComponent } from './components/cliente/cliente.component';
 import { VentaComponent } from './components/venta/venta.component';
 import { ProductoComponent } from './components/producto/producto.component';
 import { RegistroventasComponent } from './components/registroventas/registroventas.component';
+import { PagoComponent } from './components/pago/pago.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { RegistroventasComponent } from './components/registroventas/registroven
     ClienteComponent,
     VentaComponent,
     ProductoComponent,
-    RegistroventasComponent
+    RegistroventasComponent,
+    PagoComponent
   ],
   imports: [
     AlertModule.forRoot(),
