@@ -146,6 +146,7 @@ export class ProductoComponent implements OnInit {
         this._fabricaService.getNombreFabrica(this.producto.fabrica).subscribe(
           fabricaResponse => {
             this.productoSave.fabrica = fabricaResponse;
+            console.log(this.productoSave)
             this._productoService.store(this.productoSave).subscribe(
               result => {
                 this.estatus = "exito";

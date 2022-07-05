@@ -6,9 +6,11 @@ import { Color } from 'src/app/models/color';
 import { Estatus_Venta } from 'src/app/models/estatu_venta';
 import { Fabrica } from 'src/app/models/fabrica';
 import { Inventario } from 'src/app/models/inventario';
+import { Nivel_Usuario } from 'src/app/models/nivel_usuario';
 import { Pintura } from 'src/app/models/pintura';
 import { Producto } from 'src/app/models/producto';
 import { Tipo_Cuenta } from 'src/app/models/tipo_cuenta';
+import { Usuario } from 'src/app/models/usuario';
 import { Venta } from 'src/app/models/venta';
 import { CarritoService } from 'src/app/service/carrito.service';
 import { ClienteService } from 'src/app/service/cliente.service';
@@ -55,6 +57,8 @@ export class VentaComponent implements OnInit {
   public inventarioSave: Inventario;
   public ventaSave: Venta;
   public carritoSave: Carrito;
+  public usuarioSave:Usuario;
+  public nivelUsuarioSave:Nivel_Usuario;
   public nivel: any;
   public estatus: string;
   public mensaje: string;
@@ -63,6 +67,7 @@ export class VentaComponent implements OnInit {
   public buscar: string;
   public cliente: any;
   public clientes: Cliente[];
+  public factura:string;
   public total: number;
 
   constructor(
@@ -79,6 +84,7 @@ export class VentaComponent implements OnInit {
   ) {
     const selectElement = document.querySelector('.cantidad');
     this.buscar = "";
+    this.factura="";
     this.estatus = "";
     this.mensaje = "";
     this.productos = [];
@@ -97,7 +103,9 @@ export class VentaComponent implements OnInit {
     this.clienteSave = new Cliente(1, true, 'mostrador', 'mostrador', 'mostrador', 'mostrador', this.tipoCuentaSave)
     this.productoSave = new Producto(0, '', '', '', 0, 0, 0, 0, 0, 0, 0, true, this.pinturaSave, this.fabricaSave);
     this.inventarioSave = new Inventario(0, true, 0, this.productoSave, this.colorSave, this.fabricaSave);
-    this.ventaSave = new Venta(0, true, 0, 0, 0, 0, this.clienteSave, this.estatusVentaSave)
+    this.nivelUsuarioSave=new Nivel_Usuario(0,true,'');
+    this.usuarioSave=new Usuario(0,true,'','','','','',this.fabricaSave,this.nivelUsuarioSave);
+    this.ventaSave = new Venta(0, true,'' ,0, 0, 0, 0, this.clienteSave, this.estatusVentaSave,this.usuarioSave);
     this.carritoSave = new Carrito(0, true, 0, 0, 0, this.inventarioSave, this.ventaSave);
   }
 
@@ -110,6 +118,7 @@ export class VentaComponent implements OnInit {
     this.indexFabrica();
     this.indexPintura();
     this.indexColor();
+    
   }
 
 
@@ -212,6 +221,14 @@ export class VentaComponent implements OnInit {
     this._inventarioService.index().subscribe(
       data => {
         this.inventarios = data.content;
+        
+        let idVenta = localStorage.getItem('idVenta');
+        this._ventaService.getIdVenta(idVenta).subscribe(
+          ventaResponse=>{
+            this.venta=ventaResponse;
+            this.factura=this.venta.uid_venta;
+          }
+        )
       })
   }
   indexFabrica() {

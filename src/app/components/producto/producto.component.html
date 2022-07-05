@@ -95,40 +95,40 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let item of productos">
-                        <td *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion">
+                        <td *ngIf="item.activo==true ">
                             {{item.id}}</td>
-                        <td *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion">
+                        <td *ngIf="item.activo==true ">
                             {{item.nombre}}</td>
-                        <td *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion">
+                        <td *ngIf="item.activo==true ">
                             {{item.medidas}}</td>
-                        <td *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion">
+                        <td *ngIf="item.activo==true ">
                             {{item.tipo}}</td>
                         <td
-                            *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion && fabricafiltro==1">
+                            *ngIf="item.activo==true  && fabricafiltro==1">
                             {{item.precio_public}}</td>
                         <td
-                            *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion && fabricafiltro==1">
+                            *ngIf="item.activo==true  && fabricafiltro==1">
                             {{item.precio_mayoreo}}</td>
                         <td
-                            *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion && fabricafiltro==1">
+                            *ngIf="item.activo==true  && fabricafiltro==1">
                             {{item.precio_credito}}</td>
                         <td
-                            *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion && fabricafiltro==1">
+                            *ngIf="item.activo==true  && fabricafiltro==1">
                             {{item.precio_creditoNo}}</td>
                         <td
-                            *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion && fabricafiltro==1">
+                            *ngIf="item.activo==true  && fabricafiltro==1">
                             {{item.precio_puebla}}</td>
                         <td
-                            *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion && fabricafiltro==2">
+                            *ngIf="item.activo==true  && fabricafiltro==2">
                             {{item.precio_tecamachalco}}</td>
                         <td
-                            *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion && fabricafiltro==3">
+                            *ngIf="item.activo==true  && fabricafiltro==3">
                             {{item.precio_tepeaca}}</td>
-                        <td *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion">
+                        <td *ngIf="item.activo==true ">
                             {{item.fabrica.descripcion}}</td>
-                        <td *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion">
+                        <td *ngIf="item.activo==true ">
                             {{item.pintura.descripcion}}</td>
-                        <td *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion">
+                        <td *ngIf="item.activo==true">
                             <i class="fa fa-pencil fa-1x mb-3 " aria-hidden="true" data-bs-toggle="modal"
                             data-bs-target="#modelEditarProducto"  (click)="selectEdit(
                                 item.id,

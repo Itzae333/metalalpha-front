@@ -18,6 +18,7 @@
         <div class="container-fluid ">
             <div class="row g-5 ">
                 <div class="col-2">
+                    <h5 class="modal-title" id="modalEliminarLabel">{{factura}}</h5>
                 </div>
                 <div class="col-4">
                     <div class="form-check form-check-inline" *ngIf="nivel==1">
@@ -87,7 +88,7 @@
                             <th scope="col">Nombre</th>
                             <th scope="col">Medidas</th>
                             <th scope="col">Tipos</th>
-                            <th scope="col" *ngIf="fabricafiltro==1  && clientefiltro==1">Precio</th>
+                            <th scope="col" *ngIf="fabricafiltro==1 && clientefiltro==1">Precio</th>
                             <th scope="col" *ngIf="fabricafiltro==1 && clientefiltro==2">Mayoreo</th>
                             <th scope="col" *ngIf="fabricafiltro==1 && clientefiltro==3">Credito</th>
                             <th scope="col" *ngIf="fabricafiltro==1 && clientefiltro==4">No Credito</th>
@@ -96,7 +97,6 @@
                             <th scope="col" *ngIf="fabricafiltro==3 && clientefiltro==6">Precio</th>
                             <th scope="col">Existencias</th>
                             <th scope="col">Color</th>
-                            <th scope="col">Manufactura</th>
                             <th scope="col">Tipo Material</th>
                             <th scope="col">Agregar al Carrito</th>
 
@@ -137,8 +137,6 @@
                                 {{item.existencias}}</td>
                             <td *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion">
                                 {{item.color.descripcion}}</td>
-                            <td *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion">
-                                {{item.fabrica.descripcion}}</td>
                             <td *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion">
                                 {{item.producto.pintura.descripcion}}</td>
                             <td *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion">

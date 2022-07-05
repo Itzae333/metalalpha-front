@@ -91,7 +91,7 @@
                             <th scope="col" *ngIf="fabricafiltro==3">Precio</th>
                             <th scope="col">Existencias</th>
                             <th scope="col">Color</th>
-                            <th scope="col">Manufactura</th>
+                           
                             <th scope="col">Tipo Material</th>
                             <th scope="col">Acciones</th>
                             
@@ -133,8 +133,6 @@
                                 {{item.existencias}}</td>
                             <td *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion">
                                 {{item.color.descripcion}}</td>
-                            <td *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion">
-                                {{item.fabrica.descripcion}}</td>
                             <td *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion">
                                 {{item.producto.pintura.descripcion}}</td>
                             <td *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion">

@@ -6,9 +6,11 @@ import { Color } from 'src/app/models/color';
 import { Estatus_Venta } from 'src/app/models/estatu_venta';
 import { Fabrica } from 'src/app/models/fabrica';
 import { Inventario } from 'src/app/models/inventario';
+import { Nivel_Usuario } from 'src/app/models/nivel_usuario';
 import { Pintura } from 'src/app/models/pintura';
 import { Producto } from 'src/app/models/producto';
 import { Tipo_Cuenta } from 'src/app/models/tipo_cuenta';
+import { Usuario } from 'src/app/models/usuario';
 import { Venta } from 'src/app/models/venta';
 import { CarritoService } from 'src/app/service/carrito.service';
 import { ClienteService } from 'src/app/service/cliente.service';
@@ -45,6 +47,8 @@ export class PagoComponent implements OnInit {
   public inventarioSave: Inventario;
   public ventaSave: Venta;
   public carritoSave: Carrito;
+  public usuarioSave:Usuario;
+  public nivelUsuarioSave:Nivel_Usuario;
   public nivel: any;
   public estatus: string;
   public mensaje: string;
@@ -79,7 +83,9 @@ export class PagoComponent implements OnInit {
     this.clienteSave = new Cliente(1, true, 'mostrador', 'mostrador', 'mostrador', 'mostrador', this.tipoCuentaSave)
     this.productoSave = new Producto(0, '', '', '', 0, 0, 0, 0, 0, 0, 0, true, this.pinturaSave, this.fabricaSave);
     this.inventarioSave = new Inventario(0, true, 0, this.productoSave, this.colorSave, this.fabricaSave);
-    this.ventaSave = new Venta(0, true, 0, 0, 0, 0, this.clienteSave, this.estatusVentaSave)
+    this.nivelUsuarioSave=new Nivel_Usuario(0,true,'');
+    this.usuarioSave=new Usuario(0,true,'','','','','',this.fabricaSave,this.nivelUsuarioSave);
+    this.ventaSave = new Venta(0, true,'' ,0, 0, 0, 0, this.clienteSave, this.estatusVentaSave,this.usuarioSave);
     this.carritoSave = new Carrito(0, true, 0, 0, 0, this.inventarioSave, this.ventaSave);
    }
 
@@ -140,6 +146,21 @@ export class PagoComponent implements OnInit {
         ) => acc + (obj.total),
           0);
       })
+  }
+
+  actualizar_dinero() {
+    let cantidad = $('#cantidad_editar').val();
+    let precio = $('#precio_editar').val();
+
+
+    const multiplicar = function (cantidad: any, precio: any) {
+      return cantidad * precio;
+    }
+
+    const total = multiplicar(cantidad, precio);
+
+    $('#total_editar').val(total);
+
   }
 
 
