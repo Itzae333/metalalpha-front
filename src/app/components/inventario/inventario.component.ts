@@ -73,11 +73,11 @@ export class InventarioComponent implements OnInit {
     this.carritos = [];
     this.colorSave = new Color(0, true, '');
 
-    this.fabricaSave = new Fabrica(0, true, '');
+    this.fabricaSave = new Fabrica(0, true, 'Publico', 'P');
     this.pinturaSave = new Pintura(0, true, '');
-    this.tipoCuentaSave = new Tipo_Cuenta(1, true, 'publico');
+    this.tipoCuentaSave = new Tipo_Cuenta(1, true, 'publico', '');
     this.clienteSave = new Cliente(1, true, 'mostrador', 'mostrador', 'mostrador', 'mostrador', this.tipoCuentaSave)
-    this.productoSave = new Producto(0, '', '', '', 0, 0, 0, 0, 0, 0, 0, true, this.pinturaSave, this.fabricaSave);
+    this.productoSave = new Producto(0, '', '', '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, true, this.pinturaSave, this.fabricaSave);
     this.inventarioSave = new Inventario(0, true, 0, this.productoSave, this.colorSave, this.fabricaSave);
     
   }
@@ -95,17 +95,35 @@ export class InventarioComponent implements OnInit {
   loadUsuario() {
     this.usuario = this._usuarioService.getIdentity();
     if (!isEmptyObject(this.usuario)) {
-      if (this.usuario.nivelUsuario.descripcion == "administrador") {
+      if (this.usuario.nivelUsuario.identificador == "A") {
         this.nivel = 1;
       }
-      if (this.usuario.fabrica.descripcion == "virgen") {
+      if (this.usuario.nivelUsuario.identificador == "O") {
+        this.nivel = 2;
+      }
+      if (this.usuario.nivelUsuario.identificador == "VP") {
+        this.nivel = 3;
+      }
+      if (this.usuario.nivelUsuario.identificador == "E") {
+        this.nivel = 4;
+      }
+      if (this.usuario.fabrica.identificador == "VIR") {
         this.fabricafiltro = 1;
       }
-      if (this.usuario.fabrica.descripcion == "puebla") {
+      if (this.usuario.fabrica.identificador == "PUE") {
         this.fabricafiltro = 2;
       }
-      if (this.usuario.fabrica.descripcion == "santa") {
+      if (this.usuario.fabrica.identificador == "SAN") {
         this.fabricafiltro = 3;
+      }
+      if (this.usuario.fabrica.identificador == "PER") {
+        this.fabricafiltro = 4;
+      }
+      if (this.usuario.fabrica.identificador == "TEC") {
+        this.fabricafiltro = 5;
+      }
+      if (this.usuario.fabrica.identificador == "TEP") {
+        this.fabricafiltro = 6;
       }
     }
   }
@@ -186,7 +204,7 @@ export class InventarioComponent implements OnInit {
     tipo: any,
     existencias: any,
     color: any,
-    fabrica: any,
+    fabrica:any,
     pintura: any,
     idProducto: any) {
     $('#nombreEditar').val(nombre);
@@ -194,8 +212,8 @@ export class InventarioComponent implements OnInit {
     $('#tipoEditar').val(tipo);
     $('#existenciasEditar').val(existencias);
     $('#colorEditar').val(color);
-    $('#pinturaEditar').val(pintura);
     $('#fabricaEditar').val(fabrica);
+    $('#pinturaEditar').val(pintura);
     localStorage.setItem('idInventario', id);
     localStorage.setItem('idProducto', idProducto);
   }
@@ -224,7 +242,6 @@ export class InventarioComponent implements OnInit {
               fabricaResponse => {
                 this.inventario.fabrica = fabricaResponse;
                 this.inventario.activo = true;
-                console.log(this.inventario)
                 this._inventarioService.actualizarInventario(idInv, this.inventario).subscribe(
                   result => {
                     this.estatus = "exito";

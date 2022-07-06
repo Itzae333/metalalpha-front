@@ -93,8 +93,11 @@
                             <th scope="col" *ngIf="fabricafiltro==1 && clientefiltro==3">Credito</th>
                             <th scope="col" *ngIf="fabricafiltro==1 && clientefiltro==4">No Credito</th>
                             <th scope="col" *ngIf="fabricafiltro==1 && clientefiltro==5">Puebla</th>
-                            <th scope="col" *ngIf="fabricafiltro==2 && clientefiltro==5">Precio</th>
-                            <th scope="col" *ngIf="fabricafiltro==3 && clientefiltro==6">Precio</th>
+                            <th scope="col" *ngIf="fabricafiltro==2 && clientefiltro==6">Precio</th>
+                            <th scope="col" *ngIf="fabricafiltro==3 && clientefiltro==7">Precio</th>
+                            <th scope="col" *ngIf="fabricafiltro==4 && clientefiltro==8">Precio</th>
+                            <th scope="col" *ngIf="fabricafiltro==5 && clientefiltro==9">Precio</th>
+                            <th scope="col" *ngIf="fabricafiltro==6 && clientefiltro==10">Precio</th>
                             <th scope="col">Existencias</th>
                             <th scope="col">Color</th>
                             <th scope="col">Tipo Material</th>
@@ -104,51 +107,64 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let item of inventarios">
-                            <td *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion">
+                            <td *ngIf="item.activo==true && item.fabrica.identificador==usuario.fabrica.identificador">
                                 {{item.id}}</td>
-                            <td *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion">
+                            <td *ngIf="item.activo==true && item.fabrica.identificador==usuario.fabrica.identificador">
                                 {{item.producto.nombre}}</td>
-                            <td *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion">
+                            <td *ngIf="item.activo==true && item.fabrica.identificador==usuario.fabrica.identificador">
                                 {{item.producto.medidas}}</td>
-                            <td *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion">
+                            <td *ngIf="item.activo==true && item.fabrica.identificador==usuario.fabrica.identificador">
                                 {{item.producto.tipo}}</td>
-                            <td *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion 
+                            <td *ngIf="item.activo==true && item.fabrica.identificador==usuario.fabrica.identificador 
                                 && fabricafiltro==1 && clientefiltro==1">
                                 {{item.producto.precio_public | currency}}</td>
-                            <td *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion 
+                            <td *ngIf="item.activo==true && item.fabrica.identificador==usuario.fabrica.identificador 
                                 && fabricafiltro==1 && clientefiltro==2">
                                 {{item.producto.precio_mayoreo | currency}}</td>
-                            <td *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion 
+                            <td *ngIf="item.activo==true && item.fabrica.identificador==usuario.fabrica.identificador 
                                 && fabricafiltro==1 && clientefiltro==3">
                                 {{item.producto.precio_credito | currency}}</td>
-                            <td *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion 
+                            <td *ngIf="item.activo==true && item.fabrica.identificador==usuario.fabrica.identificador 
                                 && fabricafiltro==1 && clientefiltro==4">
                                 {{item.producto.precio_creditoNo | currency}}</td>
-                            <td *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion 
+                            <td *ngIf="item.activo==true && item.fabrica.identificador==usuario.fabrica.identificador 
                                 && fabricafiltro==1 && clientefiltro==5">
+                                {{item.producto.precio_puebla_virgen | currency}}</td>
+                            <td *ngIf="item.activo==true && item.fabrica.identificador==usuario.fabrica.identificador 
+                                && fabricafiltro==2 && clientefiltro==6">
                                 {{item.producto.precio_puebla | currency}}</td>
-                            <td *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion 
-                                && fabricafiltro==2 && clientefiltro==5">
+                            <td *ngIf="item.activo==true && item.fabrica.identificador==usuario.fabrica.identificador 
+                                && fabricafiltro==3 && clientefiltro==7">
+                                {{item.producto.precio_santa | currency}}</td>
+                            <td *ngIf="item.activo==true && item.fabrica.identificador==usuario.fabrica.identificador 
+                                && fabricafiltro==4 && clientefiltro==8">
+                                {{item.producto.precio_perico | currency}}</td>
+                            <td *ngIf="item.activo==true && item.fabrica.identificador==usuario.fabrica.identificador 
+                                && fabricafiltro==5 && clientefiltro==9">
                                 {{item.producto.precio_tecamachalco | currency}}</td>
-                            <td *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion 
-                                && fabricafiltro==3 && clientefiltro==6">
+                            <td *ngIf="item.activo==true && item.fabrica.identificador==usuario.fabrica.identificador 
+                                && fabricafiltro==6 && clientefiltro==10">
                                 {{item.producto.precio_tepeaca | currency}}</td>
-                            <td *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion">
+                            <td *ngIf="item.activo==true && item.fabrica.identificador==usuario.fabrica.identificador">
                                 {{item.existencias}}</td>
-                            <td *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion">
+                            <td *ngIf="item.activo==true && item.fabrica.identificador==usuario.fabrica.identificador">
                                 {{item.color.descripcion}}</td>
-                            <td *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion">
+                            <td *ngIf="item.activo==true && item.fabrica.identificador==usuario.fabrica.identificador">
                                 {{item.producto.pintura.descripcion}}</td>
-                            <td *ngIf="item.activo==true && item.fabrica.descripcion==usuario.fabrica.descripcion">
+                            <td *ngIf="item.activo==true && item.fabrica.identificador==usuario.fabrica.identificador">
                                 <i class="fa fa-address-book fa-1x" aria-hidden="true" data-bs-toggle="modal"
                                     data-bs-target="#modalAgregarCarrito" (click)="selectId(item.id,
                                     item.producto.precio_public,
                                     item.producto.precio_mayoreo,
                                     item.producto.precio_credito,
                                     item.producto.precio_creditoNo ,
+                                    item.producto.precio_puebla_virgen,
                                     item.producto.precio_puebla, 
-                                    item.producto.precio_tecamachalco,
-                                    item.producto.precio_tepeaca )"></i>
+                                    item.producto.precio_santa,
+                                    item.producto.precio_perico, 
+                                    item.producto.precio_tecamachalco, 
+                                    item.producto.precio_tepeaca
+                                     )"></i>
                             </td>
                     </tbody>
                 </table>
@@ -186,7 +202,8 @@
                 <form class="row g-3" #formEditarCarrito="ngForm">
                     <div class="col-12">
                         <label for="cantidad_editar" class="form-label">Cantidad</label>
-                        <input type="text" class="form-control" id="cantidad_editar" (change)="actualizar_total_editar()">
+                        <input type="text" class="form-control" id="cantidad_editar"
+                            (change)="actualizar_total_editar()">
                     </div>
                     <div class="col-12">
                         <label for="precio_editar" class="form-label">Precio</label>
@@ -259,13 +276,14 @@
     <div class="modal-dialog modal-lg ">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="modalVerCarritoLabel">Carrito del cliente: {{cliente.nombre +' '+ cliente.apellido}}</h5>
+                <h5 class="modal-title" id="modalVerCarritoLabel">Carrito del cliente: {{cliente.nombre +' '+
+                    cliente.apellido}}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="container responsive-lg">
-                
+
                 <hr>
-                <table class="table" >
+                <table class="table">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
@@ -288,15 +306,16 @@
                             <td>{{carrito.precio_neto | currency}}</td>
                             <td>{{carrito.total | currency}}</td>
                             <td><i class="fa fa-pencil fa-1x mb-3 " aria-hidden="true" data-bs-toggle="modal"
-                                data-bs-target="#modalEditarCarrito" (click)="selecIdEditarCarrito(carrito.inventario.id,
+                                    data-bs-target="#modalEditarCarrito" (click)="selecIdEditarCarrito(carrito.inventario.id,
                                 carrito.cantidad,
                                 carrito.precio_neto,
                                 carrito.total)"></i>
                                 <i class="fa fa-trash fa-1x" aria-hidden="true" data-bs-toggle="modal"
-                                data-bs-target="#modalEliminar" (click)="selectIdEliminar(carrito.inventario.id)"></i>
+                                    data-bs-target="#modalEliminar"
+                                    (click)="selectIdEliminar(carrito.inventario.id)"></i>
                             </td>
                         </tr>
-                        <tr >
+                        <tr>
                             <td colspan="6" class="table-active" id="total_carrito">Total</td>
                             <td> {{total | currency}}</td>
                         </tr>
@@ -306,16 +325,16 @@
             <hr>
             <form class="row g-3" #formAgregarcarrito="ngForm">
                 <div class="col-3 mb-4">
-                  
+
                 </div>
-            <div class="col-3 mb-3">
-                <button type="submit" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
-            </div>
-            <div class="col-3 mb-3">
-                <button type="submit" class="btn btn-success" data-bs-dismiss="modal"
-                    (click)="pagarVenta(total)">Aceptar</button>
-            </div>
-        </form>
+                <div class="col-3 mb-3">
+                    <button type="submit" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+                <div class="col-3 mb-3">
+                    <button type="submit" class="btn btn-success" data-bs-dismiss="modal"
+                        (click)="pagarVenta(total)">Aceptar</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

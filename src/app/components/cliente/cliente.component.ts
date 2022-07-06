@@ -36,7 +36,7 @@ export class ClienteComponent implements OnInit {
     this.mensaje = "";
     this.clientes = [];
     this.tipoCuentas = [];
-    this.tipoCuentaSave = new Tipo_Cuenta(0, true, '');
+    this.tipoCuentaSave = new Tipo_Cuenta(0, true, '','');
     this.clienteSave = new Cliente(0, true, '', '', '', '', this.tipoCuentaSave)
   }
 
@@ -49,17 +49,35 @@ export class ClienteComponent implements OnInit {
   loadUsuario() {
     this.usuario = this._usuarioService.getIdentity();
     if (!isEmptyObject(this.usuario)) {
-      if (this.usuario.nivelUsuario.descripcion == "administrador") {
+      if (this.usuario.nivelUsuario.identificador == "A") {
         this.nivel = 1;
       }
-      if (this.usuario.fabrica.descripcion == "virgen") {
+      if (this.usuario.nivelUsuario.identificador == "O") {
+        this.nivel = 2;
+      }
+      if (this.usuario.nivelUsuario.identificador == "VP") {
+        this.nivel = 3;
+      }
+      if (this.usuario.nivelUsuario.identificador == "E") {
+        this.nivel = 4;
+      }
+      if (this.usuario.fabrica.identificador == "VIR") {
         this.fabricafiltro = 1;
       }
-      if (this.usuario.fabrica.descripcion == "puebla") {
+      if (this.usuario.fabrica.identificador == "PUE") {
         this.fabricafiltro = 2;
       }
-      if (this.usuario.fabrica.descripcion == "santa") {
+      if (this.usuario.fabrica.identificador == "SAN") {
         this.fabricafiltro = 3;
+      }
+      if (this.usuario.fabrica.identificador == "PER") {
+        this.fabricafiltro = 4;
+      }
+      if (this.usuario.fabrica.identificador == "TEC") {
+        this.fabricafiltro = 5;
+      }
+      if (this.usuario.fabrica.identificador == "TEP") {
+        this.fabricafiltro = 6;
       }
     }
   }

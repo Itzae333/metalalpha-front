@@ -44,9 +44,9 @@ export class AppComponent implements DoCheck {
     this.nivel = "";
     this.clientes = [];
     this.estatusVentaSave = new Estatus_Venta(1, true, 'apertura');
-    this.fabricaSave = new Fabrica(0, true, '');
-    this.tipoCuentaSave = new Tipo_Cuenta(1, true, 'publico');
-    this.nivelUsuarioSave=new Nivel_Usuario(0,true,'');
+    this.fabricaSave = new Fabrica(0, true, '','');
+    this.tipoCuentaSave = new Tipo_Cuenta(1, true, 'Publico','P');
+    this.nivelUsuarioSave=new Nivel_Usuario(0,true,'','');
     this.clienteSave = new Cliente(1, true, 'mostrador', 'mostrador', 'mostrador', 'mostrador', this.tipoCuentaSave)
     this.usuarioSave=new Usuario(0,true,'','','','','',this.fabricaSave,this.nivelUsuarioSave);
     this.ventaSave = new Venta(0, true,'' ,0, 0, 0, 0, this.clienteSave, this.estatusVentaSave,this.usuarioSave);
@@ -59,8 +59,17 @@ export class AppComponent implements DoCheck {
   loadUsuario() {
     this.usuario = this._usuarioService.getIdentity();
     if (!isEmptyObject(this.usuario)) {
-      if (this.usuario.nivelUsuario.descripcion == "administrador") {
+      if (this.usuario.nivelUsuario.identificador == "A") {
         this.nivel = 1;
+      }
+      if (this.usuario.nivelUsuario.identificador == "O") {
+        this.nivel = 2;
+      }
+      if (this.usuario.nivelUsuario.identificador == "VP") {
+        this.nivel = 3;
+      }
+      if (this.usuario.nivelUsuario.identificador == "E") {
+        this.nivel = 4;
       }
     }
   }

@@ -23,8 +23,8 @@ export class LoginComponent implements OnInit {
     private _router:Router,
     private _route:ActivatedRoute
   ) { 
-    this.fabrica=new Fabrica(0,true,'');
-    this.nivelUsuario=new Nivel_Usuario(0,true,'');
+    this.fabrica=new Fabrica(0,true,'','');
+    this.nivelUsuario=new Nivel_Usuario(0,true,'','');
     this.usuario=new Usuario(0,true,'','','','','',this.fabrica,this.nivelUsuario)
   }
 
@@ -45,7 +45,7 @@ export class LoginComponent implements OnInit {
     this._route.params.subscribe(params=>{
       let logout=+params['sure'];
       if(logout==1){
-        localStorage.removeItem('usuario');
+        localStorage.clear();
         this.identity=null;
 
         this._router.navigate([''])

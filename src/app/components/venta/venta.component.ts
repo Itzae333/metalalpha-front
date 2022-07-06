@@ -1,4 +1,5 @@
 import { Component, DoCheck, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { isEmptyObject } from 'jquery';
 import { Carrito } from 'src/app/models/carrito';
 import { Cliente } from 'src/app/models/cliente';
@@ -81,6 +82,8 @@ export class VentaComponent implements OnInit {
     private _carritoService: CarritoService,
     private _clienteService: ClienteService,
     private _estatusVentaService: EstatusVentaService,
+    private _router:Router,
+    private _route:ActivatedRoute,
   ) {
     const selectElement = document.querySelector('.cantidad');
     this.buscar = "";
@@ -97,13 +100,13 @@ export class VentaComponent implements OnInit {
     this.carritos = [];
     this.colorSave = new Color(0, true, '');
     this.estatusVentaSave = new Estatus_Venta(1, true, 'apertura');
-    this.fabricaSave = new Fabrica(0, true, '');
+    this.fabricaSave = new Fabrica(0, true, '', '');
     this.pinturaSave = new Pintura(0, true, '');
-    this.tipoCuentaSave = new Tipo_Cuenta(1, true, 'publico');
+    this.tipoCuentaSave = new Tipo_Cuenta(1, true, 'publico', 'P');
     this.clienteSave = new Cliente(1, true, 'mostrador', 'mostrador', 'mostrador', 'mostrador', this.tipoCuentaSave)
-    this.productoSave = new Producto(0, '', '', '', 0, 0, 0, 0, 0, 0, 0, true, this.pinturaSave, this.fabricaSave);
+    this.productoSave = new Producto(0, '', '', '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, true, this.pinturaSave, this.fabricaSave);
     this.inventarioSave = new Inventario(0, true, 0, this.productoSave, this.colorSave, this.fabricaSave);
-    this.nivelUsuarioSave=new Nivel_Usuario(0,true,'');
+    this.nivelUsuarioSave=new Nivel_Usuario(0,true,'','');
     this.usuarioSave=new Usuario(0,true,'','','','','',this.fabricaSave,this.nivelUsuarioSave);
     this.ventaSave = new Venta(0, true,'' ,0, 0, 0, 0, this.clienteSave, this.estatusVentaSave,this.usuarioSave);
     this.carritoSave = new Carrito(0, true, 0, 0, 0, this.inventarioSave, this.ventaSave);
@@ -139,13 +142,17 @@ export class VentaComponent implements OnInit {
     }
   }
 
-  selectId(id: any, precio: any
+  selectId(id: any
+    , precio: any
     , precioMayoreo: any
     , precioCredito: any
     , precioNoCredito: any
-    , precioPuebla: any
-    , Puebla: any
-    , Santa: any) {
+    , precioPueblaVirgen: any
+    , precio_peubla: any
+    , precio_santa: any
+    , precio_perico: any
+    , precio_tacamachalco: any
+    , precio_tepeaca: any) {
     localStorage.setItem('idInventario', id);
 
     if (this.clientefiltro == 1) {
@@ -161,13 +168,22 @@ export class VentaComponent implements OnInit {
       $('#precio_carrito').val(precioNoCredito);
     }
     if (this.clientefiltro == 5) {
-      $('#precio_carrito').val(precioPuebla);
-    }
-    if (this.clientefiltro == 5) {
-      $('#precio_carrito').val(Puebla);
+      $('#precio_carrito').val(precioPueblaVirgen);
     }
     if (this.clientefiltro == 6) {
-      $('#precio_carrito').val(Santa);
+      $('#precio_carrito').val(precio_peubla);
+    }
+    if (this.clientefiltro == 7) {
+      $('#precio_carrito').val(precio_santa);
+    }
+    if (this.clientefiltro == 8) {
+      $('#precio_carrito').val(precio_perico);
+    }
+    if (this.clientefiltro == 9) {
+      $('#precio_carrito').val(precio_tacamachalco);
+    }
+    if (this.clientefiltro == 10) {
+      $('#precio_carrito').val(precio_tepeaca);
     }
   }
 
@@ -181,37 +197,67 @@ export class VentaComponent implements OnInit {
     this.usuario = this._usuarioService.getIdentity();
     this.cliente = this._clienteService.getIdentityCliente();
     if (!isEmptyObject(this.usuario)) {
-      if (this.usuario.nivelUsuario.descripcion == "administrador") {
+      if (this.usuario.nivelUsuario.identificador == "A") {
         this.nivel = 1;
       }
-      if (this.usuario.fabrica.descripcion == "virgen") {
+      if (this.usuario.nivelUsuario.identificador == "O") {
+        this.nivel = 2;
+      }
+      if (this.usuario.nivelUsuario.identificador == "VP") {
+        this.nivel = 3;
+      }
+      if (this.usuario.nivelUsuario.identificador == "E") {
+        this.nivel = 4;
+      }
+      if (this.usuario.fabrica.identificador == "VIR") {
         this.fabricafiltro = 1;
       }
-      if (this.usuario.fabrica.descripcion == "puebla") {
+      if (this.usuario.fabrica.identificador == "PUE") {
         this.fabricafiltro = 2;
       }
-      if (this.usuario.fabrica.descripcion == "santa") {
+      if (this.usuario.fabrica.identificador == "SAN") {
         this.fabricafiltro = 3;
+      }
+      if (this.usuario.fabrica.identificador == "PER") {
+        this.fabricafiltro = 4;
+      }
+      if (this.usuario.fabrica.identificador == "TEC") {
+        this.fabricafiltro = 5;
+      }
+      if (this.usuario.fabrica.identificador == "TEP") {
+        this.fabricafiltro = 6;
       }
     }
     if (!isEmptyObject(this.cliente)) {
-      if (this.cliente.tipoCuenta.descripcion == "Publico") {
+      if (this.cliente.tipoCuenta.identificador == "P") {
         this.clientefiltro = 1;
       }
-      if (this.cliente.tipoCuenta.descripcion == "Mayoreo") {
+      if (this.cliente.tipoCuenta.identificador == "M") {
         this.clientefiltro = 2;
       }
-      if (this.cliente.tipoCuenta.descripcion == "Credito") {
+      if (this.cliente.tipoCuenta.identificador == "C") {
         this.clientefiltro = 3;
       }
-      if (this.cliente.tipoCuenta.descripcion == "NoCredito") {
+      if (this.cliente.tipoCuenta.identificador == "NC") {
         this.clientefiltro = 4;
       }
-      if (this.cliente.tipoCuenta.descripcion == "Puebla") {
+      if (this.cliente.tipoCuenta.identificador == "PUV") {
         this.clientefiltro = 5;
       }
-      if (this.cliente.tipoCuenta.descripcion == "Puebla") {
+      if (this.cliente.tipoCuenta.identificador == "PUE") {
         this.clientefiltro = 6;
+      }
+      if (this.cliente.tipoCuenta.identificador == "SAN") {
+        this.clientefiltro = 7;
+      }
+      if (this.cliente.tipoCuenta.identificador == "PE") {
+        this.clientefiltro = 8;
+      }
+      if (this.cliente.tipoCuenta.identificador == "TEC") {
+        this.clientefiltro = 9;
+      }
+      if (this.cliente.tipoCuenta.identificador == "TEP") {
+        this.clientefiltro = 10;
       }
     }
   }
@@ -396,7 +442,8 @@ export class VentaComponent implements OnInit {
             console.log(this.venta);
             this._ventaService.actualizarVenta(idVenta,this.venta).subscribe(
               resuklt => {
-                
+                localStorage.removeItem('idCarrito')
+                this._router.navigate(['pago'])
               },
               error => {
                 this.estatus = "error";
