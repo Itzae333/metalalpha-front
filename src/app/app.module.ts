@@ -6,6 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { AlertModule } from 'ngx-bootstrap/alert';
 
+
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
@@ -16,6 +17,8 @@ import { VentaComponent } from './components/venta/venta.component';
 import { ProductoComponent } from './components/producto/producto.component';
 import { RegistroventasComponent } from './components/registroventas/registroventas.component';
 import { PagoComponent } from './components/pago/pago.component';
+import { TicketComponent } from './components/ticket/ticket.component';
+
 
 @NgModule({
   declarations: [
@@ -28,7 +31,8 @@ import { PagoComponent } from './components/pago/pago.component';
     VentaComponent,
     ProductoComponent,
     RegistroventasComponent,
-    PagoComponent
+    PagoComponent,
+    TicketComponent
   ],
   imports: [
     AlertModule.forRoot(),

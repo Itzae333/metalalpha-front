@@ -8,6 +8,7 @@ import { InventarioComponent } from "./components/inventario/inventario.componen
 import { LoginComponent } from "./components/login/login.component";
 import { PagoComponent } from "./components/pago/pago.component";
 import { ProductoComponent } from "./components/producto/producto.component";
+import { TicketComponent } from "./components/ticket/ticket.component";
 import { VentaComponent } from "./components/venta/venta.component";
 
 
@@ -23,6 +24,7 @@ const appRoutes: Routes = [
   {path:'venta',component:VentaComponent},
   {path:'cliente',component:ClienteComponent},
   {path:'pago',component:PagoComponent},
+  {path:'ticket',component:TicketComponent},
   {path:'*',component:ErrorComponent},
 ];
 

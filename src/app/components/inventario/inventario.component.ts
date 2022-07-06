@@ -73,9 +73,9 @@ export class InventarioComponent implements OnInit {
     this.carritos = [];
     this.colorSave = new Color(0, true, '');
 
-    this.fabricaSave = new Fabrica(0, true, 'Publico', 'P');
+    this.fabricaSave = new Fabrica(0, true, '', '', '', '', '', '', '', '');
     this.pinturaSave = new Pintura(0, true, '');
-    this.tipoCuentaSave = new Tipo_Cuenta(1, true, 'publico', '');
+    this.tipoCuentaSave = new Tipo_Cuenta(1, true, 'Publico', 'P');
     this.clienteSave = new Cliente(1, true, 'mostrador', 'mostrador', 'mostrador', 'mostrador', this.tipoCuentaSave)
     this.productoSave = new Producto(0, '', '', '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, true, this.pinturaSave, this.fabricaSave);
     this.inventarioSave = new Inventario(0, true, 0, this.productoSave, this.colorSave, this.fabricaSave);
@@ -134,7 +134,7 @@ export class InventarioComponent implements OnInit {
         this.inventarios = data.content;
       })
   }
-  indexFabrica() {
+  indexPintura() {
     this._pinturaService.index().subscribe(
       data => {
         this.pinturas = data.content;
@@ -147,7 +147,7 @@ export class InventarioComponent implements OnInit {
         this.colores = data.content;
       })
   }
-  indexPintura() {
+  indexFabrica() {
     this._fabricaService.index().subscribe(
       data => {
         this.fabricas = data.content;

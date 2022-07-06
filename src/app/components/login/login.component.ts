@@ -14,7 +14,7 @@ import { UsuarioService } from 'src/app/service/usuario.service';
 export class LoginComponent implements OnInit {
 
   public usuario:Usuario;
-  public fabrica:Fabrica;
+  public fabricaSave:Fabrica;
   public nivelUsuario:Nivel_Usuario;
   public identity:any;
 
@@ -23,9 +23,9 @@ export class LoginComponent implements OnInit {
     private _router:Router,
     private _route:ActivatedRoute
   ) { 
-    this.fabrica=new Fabrica(0,true,'','');
+    this.fabricaSave = new Fabrica(0, true, '', '', '', '', '', '', '', '');
     this.nivelUsuario=new Nivel_Usuario(0,true,'','');
-    this.usuario=new Usuario(0,true,'','','','','',this.fabrica,this.nivelUsuario)
+    this.usuario=new Usuario(0,true,'','','','','',this.fabricaSave,this.nivelUsuario)
   }
 
   ngOnInit(): void {

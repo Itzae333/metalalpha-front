@@ -100,7 +100,7 @@ export class VentaComponent implements OnInit {
     this.carritos = [];
     this.colorSave = new Color(0, true, '');
     this.estatusVentaSave = new Estatus_Venta(1, true, 'apertura');
-    this.fabricaSave = new Fabrica(0, true, '', '');
+    this.fabricaSave = new Fabrica(0, true, '', '', '', '', '', '', '', '');
     this.pinturaSave = new Pintura(0, true, '');
     this.tipoCuentaSave = new Tipo_Cuenta(1, true, 'publico', 'P');
     this.clienteSave = new Cliente(1, true, 'mostrador', 'mostrador', 'mostrador', 'mostrador', this.tipoCuentaSave)

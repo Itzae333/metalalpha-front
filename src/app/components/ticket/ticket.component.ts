@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { isEmptyObject } from 'jquery';
+import { data, isEmptyObject } from 'jquery';
 import { Carrito } from 'src/app/models/carrito';
 import { Cliente } from 'src/app/models/cliente';
 import { Color } from 'src/app/models/color';
@@ -14,17 +14,25 @@ import { Usuario } from 'src/app/models/usuario';
 import { Venta } from 'src/app/models/venta';
 import { CarritoService } from 'src/app/service/carrito.service';
 import { ClienteService } from 'src/app/service/cliente.service';
+import { ColorService } from 'src/app/service/color.service';
 import { EstatusVentaService } from 'src/app/service/estatu_venta.service';
+import { FabricaService } from 'src/app/service/fabrica.service';
+import { InventarioService } from 'src/app/service/inventario.service';
+import { PinturaService } from 'src/app/service/pintura.service';
+import { ProductoService } from 'src/app/service/producto.service';
 import { UsuarioService } from 'src/app/service/usuario.service';
 import { VentaService } from 'src/app/service/venta.service';
+import * as es6printJS from "print-js";
+
 
 @Component({
-  selector: 'app-pago',
-  templateUrl: './pago.component.html',
-  styleUrls: ['./pago.component.css'],
-  providers: [UsuarioService, CarritoService, VentaService, EstatusVentaService]
+  selector: 'app-ticket',
+  templateUrl: './ticket.component.html',
+  styleUrls: ['./ticket.component.css'],
+  providers: [UsuarioService, ProductoService, FabricaService, PinturaService, ColorService, InventarioService,CarritoService,VentaService]
 })
-export class PagoComponent implements OnInit {
+export class TicketComponent implements OnInit {
+
   public usuario: any;
   public producto: any;
   public carrito: any;
@@ -58,11 +66,14 @@ export class PagoComponent implements OnInit {
   public cliente: any;
   public clientes: Cliente[];
   public total: number;
+  public fabrica: any;
+  public nota:any;
   constructor(
     private _carritoService: CarritoService,
     private _ventaService: VentaService,
     private _clienteService: ClienteService,
     private _usuarioService: UsuarioService,
+    private _fabricaService: FabricaService,
   ) {
     this.buscar = "";
     this.estatus = "";
@@ -75,6 +86,7 @@ export class PagoComponent implements OnInit {
     this.inventarios = [];
     this.clientes = [];
     this.carritos = [];
+   
     this.colorSave = new Color(0, true, '');
     this.estatusVentaSave = new Estatus_Venta(1, true, 'apertura');
     this.fabricaSave = new Fabrica(0, true, '', '', '', '', '', '', '', '');
@@ -163,9 +175,29 @@ export class PagoComponent implements OnInit {
     }
   }
 
+ FabricaId() {
+    this._fabricaService.getIdFabrica(this.fabricafiltro).subscribe(
+      data => {
+        this.fabrica = [data];
+        this.fabricas=this.fabrica;
+      })
+  }
+
+  Venta(){
+    let idVenta = localStorage.getItem('idVenta');
+    this._ventaService.getIdVenta(idVenta).subscribe(
+      data=>{
+        this.venta=data;
+        this.nota=this.venta.uid_venta;
+      }
+    )
+  }
+
 
 
   index() {
+    this.FabricaId();
+    this.Venta();
     let idVen = localStorage.getItem('idVenta');
     this._carritoService.getVentaCarrito(idVen).subscribe(
       data => {
@@ -179,21 +211,5 @@ export class PagoComponent implements OnInit {
       })
   }
 
-  actualizar_dinero() {
-    let cantidad = $('#cantidad_editar').val();
-    let precio = $('#precio_editar').val();
-
-
-    const multiplicar = function (cantidad: any, precio: any) {
-      return cantidad * precio;
-    }
-
-    const total = multiplicar(cantidad, precio);
-
-    $('#total_editar').val(total);
-
-  }
-
-
-
+  
 }
