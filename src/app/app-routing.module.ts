@@ -6,6 +6,7 @@ import { ErrorComponent } from "./components/error/error.component";
 import { HomeComponent } from "./components/home/home.component";
 import { InventarioComponent } from "./components/inventario/inventario.component";
 import { LoginComponent } from "./components/login/login.component";
+import { PagoComponent } from "./components/pago/pago.component";
 import { ProductoComponent } from "./components/producto/producto.component";
 import { VentaComponent } from "./components/venta/venta.component";
 
@@ -21,6 +22,7 @@ const appRoutes: Routes = [
   {path:'inventario',component:InventarioComponent},
   {path:'venta',component:VentaComponent},
   {path:'cliente',component:ClienteComponent},
+  {path:'pago',component:PagoComponent},
   {path:'*',component:ErrorComponent},
 ];
 

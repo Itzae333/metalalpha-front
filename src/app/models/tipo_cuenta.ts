@@ -3,5 +3,6 @@ export class Tipo_Cuenta{
         public id:number,
         public activo:boolean,
         public descripcion:string,
+        public identificador:string,
     ){}
 }

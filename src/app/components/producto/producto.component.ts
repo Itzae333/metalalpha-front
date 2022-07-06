@@ -53,9 +53,9 @@ export class ProductoComponent implements OnInit {
     this.fabricas = [];
     this.pinturas = [];
     this.colorSave = new Color(0, true, '');
-    this.fabricaSave = new Fabrica(0, true, '');
+    this.fabricaSave = new Fabrica(0, true, '', '');
     this.pinturaSave = new Pintura(0, true, '');
-    this.productoSave = new Producto(0, '', '', '', 0, 0, 0, 0, 0, 0, 0, true, this.pinturaSave, this.fabricaSave);
+    this.productoSave = new Producto(0, '', '', '', 0, 0, 0, 0, 0, 0,0,0,0, 0, true, this.pinturaSave, this.fabricaSave);
     this.inventarioSave = new Inventario(0, true, 0, this.productoSave, this.colorSave, this.fabricaSave);
   }
 
@@ -70,17 +70,35 @@ export class ProductoComponent implements OnInit {
   loadUsuario() {
     this.usuario = this._usuarioService.getIdentity();
     if (!isEmptyObject(this.usuario)) {
-      if (this.usuario.nivelUsuario.descripcion == "administrador") {
+      if (this.usuario.nivelUsuario.identificador == "A") {
         this.nivel = 1;
       }
-      if (this.usuario.fabrica.descripcion == "virgen") {
+      if (this.usuario.nivelUsuario.identificador == "O") {
+        this.nivel = 2;
+      }
+      if (this.usuario.nivelUsuario.identificador == "VP") {
+        this.nivel = 3;
+      }
+      if (this.usuario.nivelUsuario.identificador == "E") {
+        this.nivel = 4;
+      }
+      if (this.usuario.fabrica.identificador == "VIR") {
         this.fabricafiltro = 1;
       }
-      if (this.usuario.fabrica.descripcion == "puebla") {
+      if (this.usuario.fabrica.identificador == "PUE") {
         this.fabricafiltro = 2;
       }
-      if (this.usuario.fabrica.descripcion == "santa") {
+      if (this.usuario.fabrica.identificador == "SAN") {
         this.fabricafiltro = 3;
+      }
+      if (this.usuario.fabrica.identificador == "PER") {
+        this.fabricafiltro = 4;
+      }
+      if (this.usuario.fabrica.identificador == "TEC") {
+        this.fabricafiltro = 5;
+      }
+      if (this.usuario.fabrica.identificador == "TEP") {
+        this.fabricafiltro = 6;
       }
     }
   }
@@ -216,6 +234,7 @@ export class ProductoComponent implements OnInit {
     )
   }
 
+
   selectEdit = function (id: any,
     nombre: any,
     medidas: any,
@@ -224,7 +243,10 @@ export class ProductoComponent implements OnInit {
     precio_mayoreo: any,
     precio_credito: any,
     precio_creditoNo: any,
+    precio_puebla_virgen: any,
     precio_puebla: any,
+    precio_santa: any,
+    precio_perico: any,
     precio_tecamachalco: any,
     precio_tepeaca: any,
     pintura: any,
@@ -236,9 +258,12 @@ export class ProductoComponent implements OnInit {
     $('#precio_mayoreoEditar').val(precio_mayoreo);
     $('#precio_creditoEditar').val(precio_credito);
     $('#precio_noCreditoEditar').val(precio_creditoNo);
-    $('#precio_pueblaVirgenEditar').val(precio_puebla);
-    $('#pueblaEditar').val(precio_tecamachalco);
-    $('#santaEditar').val(precio_tepeaca);
+    $('#precio_pueblaVirgenEditar').val(precio_puebla_virgen);
+    $('#precio_pueblaEditar').val(precio_puebla);
+    $('#precio_santaEditar').val(precio_santa);
+    $('#precio_pericoEditar').val(precio_perico);
+    $('#precio_tecamachalcoEditar').val(precio_tecamachalco);
+    $('#precio_tepeacaEditar').val(precio_tepeaca);
     $('#pinturaEditar').val(pintura);
     $('#fabricaEditar').val(fabrica);
     localStorage.setItem('idProducto', id);
@@ -252,9 +277,12 @@ export class ProductoComponent implements OnInit {
     var precio_mayoreo = $('#precio_mayoreoEditar').val();
     var precio_credito = $('#precio_creditoEditar').val();
     var precio_creditoNo = $('#precio_noCreditoEditar').val();
-    var precio_puebla = $('#precio_pueblaVirgenEditar').val();
-    var precio_tecamachalco = $('#pueblaEditar').val();
-    var precio_tepeaca = $('#santaEditar').val();
+    var precio_puebla_virgen = $('#precio_pueblaVirgenEditar').val();
+    var precio_puebla = $('#pueblaEditar').val();
+    var precio_santa = $('#precio_santaEditar').val();
+    var precio_perico = $('#precio_pericoEditar').val();
+    var precio_tecamachalco = $('#precio_tecamachalcoEditar').val();
+    var precio_tepeaca = $('#precio_tepeacaEditar').val();
     var pintura = $('#pinturaEditar').val();
     var fabrica = $('#fabricaEditar').val();
     let idpro = localStorage.getItem('idProducto');
@@ -285,15 +313,25 @@ export class ProductoComponent implements OnInit {
         } else {
           this.producto.precio_creditoNo = precio_creditoNo;
         }
-        if (precio_puebla == undefined) {
-          this.producto.precio_puebla = this.productoEdit.precio_puebla;
+        if (precio_puebla_virgen == undefined) {
+          this.producto.precio_puebla_virgen = this.productoEdit.precio_puebla_virgen;
         } else {
-          this.producto.precio_puebla = precio_puebla;
+          this.producto.precio_puebla_virgen = precio_puebla_virgen;
         }
         if (precio_puebla == undefined) {
           this.producto.precio_puebla = this.productoEdit.precio_puebla;
         } else {
           this.producto.precio_puebla = precio_puebla;
+        }
+        if (precio_santa == undefined) {
+          this.producto.precio_santa = this.productoEdit.precio_santa;
+        } else {
+          this.producto.precio_santa = precio_santa;
+        }
+        if (precio_perico == undefined) {
+          this.producto.precio_perico = this.productoEdit.precio_perico;
+        } else {
+          this.producto.precio_perico = precio_perico;
         }
         if (precio_tecamachalco == undefined) {
           this.producto.precio_tecamachalco = this.productoEdit.precio_tecamachalco;
@@ -305,6 +343,7 @@ export class ProductoComponent implements OnInit {
         } else {
           this.producto.precio_tepeaca = precio_tepeaca;
         }
+        
         this._pinturaService.getNombrePintura(pintura).subscribe(
           pinturaResponse => {
             this.producto.pintura = pinturaResponse;
@@ -312,7 +351,6 @@ export class ProductoComponent implements OnInit {
               fabricaResponse => {
                 this.producto.fabrica = fabricaResponse;
                 this.producto.activo=true;
-                console.log(this.producto)
                 this._productoService.actualizarProducto(idpro,this.producto).subscribe(
                   result => {
                     this.estatus = "exito";
