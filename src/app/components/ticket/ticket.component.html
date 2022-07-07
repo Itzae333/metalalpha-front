@@ -16,21 +16,10 @@
         </div>
         <table>
             <thead>
-                <tr *ngFor="let fabrica of fabricas">
-                    <th>{{fabrica.estado}}</th>
-                    <th>{{fabrica.municipio}}</th>
-                    <th>{{fabrica.calle}}</th>
-                </tr>
-                <tr *ngFor="let fabrica of fabricas">
-                    <th>{{fabrica.rfc}}</th>
-                </tr>
-                <tr *ngFor="let fabrica of fabricas">
-                    <th>{{fabrica.telefono1}}</th>
-                    <th>{{fabrica.telefono2}}</th>
-                </tr>
                 <tr>
-                    <th>CANT</th>
-                    <th>PRODUCTO</th>
+                    <th>Cantidad</th>
+                    <th>Descripcion</th>
+                    <th>PU</th>
                     <th>$$</th>
                 </tr>
             </thead>
@@ -39,9 +28,11 @@
                     <td>{{carrito.cantidad}}</td>
                     <td>{{carrito.inventario.producto.nombre+ ''+carrito.inventario.producto.medidas+'
                         '+carrito.inventario.producto.tipo}} </td>
+                    <td>{{carrito.precio_neto | currency}}</td>
                     <td>{{carrito.total | currency}}</td>
                 </tr>
                 <tr>
+                    <td>TOTAL</td>
                     <td></td>
                     <td></td>
                     {{total| currency}}

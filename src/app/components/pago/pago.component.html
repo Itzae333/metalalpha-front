@@ -37,12 +37,12 @@
                 <img src="./assets/logo_small.png" height='80'
                     class='credit-card-image' id='credit-card-image'>
                 Recibo
-                <input class='input-field' id="">
+                <input class='input-field' id="recibido" (change)="actualizar_dinero()">
                 Restan
-                <input class='input-field'>
+                <input class='input-field'id="restan">
                 Cambio
-                <input class='input-field'>
-                <button class='pay-btn'>Aceptar</button>
+                <input class='input-field'id="cambio">
+                <button class='pay-btn' (click)="finalizarPago()">Aceptar</button>
 
             </div>
 

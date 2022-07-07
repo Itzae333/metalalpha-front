@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { isEmptyObject } from 'jquery';
+import { ActivatedRoute, Router } from '@angular/router';
+import { data, isEmptyObject } from 'jquery';
 import { Carrito } from 'src/app/models/carrito';
 import { Cliente } from 'src/app/models/cliente';
 import { Color } from 'src/app/models/color';
@@ -15,6 +16,7 @@ import { Venta } from 'src/app/models/venta';
 import { CarritoService } from 'src/app/service/carrito.service';
 import { ClienteService } from 'src/app/service/cliente.service';
 import { EstatusVentaService } from 'src/app/service/estatu_venta.service';
+import { InventarioService } from 'src/app/service/inventario.service';
 import { UsuarioService } from 'src/app/service/usuario.service';
 import { VentaService } from 'src/app/service/venta.service';
 
@@ -22,7 +24,7 @@ import { VentaService } from 'src/app/service/venta.service';
   selector: 'app-pago',
   templateUrl: './pago.component.html',
   styleUrls: ['./pago.component.css'],
-  providers: [UsuarioService, CarritoService, VentaService, EstatusVentaService]
+  providers: [UsuarioService, CarritoService, VentaService, EstatusVentaService,InventarioService]
 })
 export class PagoComponent implements OnInit {
   public usuario: any;
@@ -63,6 +65,11 @@ export class PagoComponent implements OnInit {
     private _ventaService: VentaService,
     private _clienteService: ClienteService,
     private _usuarioService: UsuarioService,
+    private _estatusVentaService: EstatusVentaService,
+    private _router:Router,
+    private _route:ActivatedRoute,
+    private _inventarioService: InventarioService,
+
   ) {
     this.buscar = "";
     this.estatus = "";
@@ -177,21 +184,93 @@ export class PagoComponent implements OnInit {
         ) => acc + (obj.total),
           0);
       })
+      this._ventaService.getIdVenta(idVen).subscribe(
+        data=>{
+          localStorage.setItem('total',data.total);
+        }
+      )
   }
 
   actualizar_dinero() {
-    let cantidad = $('#cantidad_editar').val();
-    let precio = $('#precio_editar').val();
+    let total_venta = localStorage.getItem('total');
+    let recibido = $('#recibido').val();
 
 
-    const multiplicar = function (cantidad: any, precio: any) {
-      return cantidad * precio;
+    const resta = function (total_venta: any, recibo: any) {
+ 
+      return recibo-total_venta
     }
 
-    const total = multiplicar(cantidad, precio);
+    const cambioSigno = function ( restan: any) {
+ 
+      return restan*-1
+    }
 
-    $('#total_editar').val(total);
+    const restan = resta(total_venta, recibido);
+    if(restan<0){
+      $('#restan').val(cambioSigno(restan));
+      $('#cambio').val(0);
+    }else{
+      $('#restan').val(0);
+      $('#cambio').val(restan);
+    }
+  }
 
+  finalizarPago(){
+    let recibido = $('#recibido').val();
+    let restan = $('#restan').val();
+    let cambio = $('#cambio').val();
+    let idVen = localStorage.getItem('idVenta');
+    const actualizacionExistencias = function ( existencias: any,unidades: any) {
+ 
+      return existencias-unidades;
+    }
+    this._ventaService.getIdVenta(idVen).subscribe(
+      ventaResponse=>{
+        this.venta=ventaResponse;
+        this.venta.recibido=recibido;
+        this.venta.restan=restan;
+        this.venta.cambio=cambio;
+        this._estatusVentaService.getIdEstatusVenta(3).subscribe(
+          esttausVentaResponse => {
+            this.venta.estatusVenta = esttausVentaResponse;
+            this._ventaService.actualizarVenta(idVen,this.venta).subscribe(
+              resuklt => {
+               
+                for(let i=0;i<this.carritos.length;i++){
+                  this._inventarioService.getIdInventario(this.carritos[i].inventario.id).subscribe(
+                    data=>{
+                      
+                      let existencias=data.existencias;
+                     
+                      let idInventario=data.id;
+                      
+                      let unidades=this.carritos[i].cantidad;
+                      
+                      this.inventario=data;
+                     
+                      this.inventario.existencias=actualizacionExistencias(existencias,unidades);
+                      this._inventarioService.actualizarInventario(idInventario,this.inventario).subscribe(
+                        inventarioResponse=>{
+                          
+                        }
+                      )
+                      
+                    }
+                  )
+                }
+                this._router.navigate(['ticket'])
+              },
+              error => {
+                this.estatus = "error";
+                this.mensaje = "Error al cerrar el ticket el carrito"
+                localStorage.removeItem('idCarrito')
+              }
+            )
+          }
+        )
+      }
+    )
   }
 
 

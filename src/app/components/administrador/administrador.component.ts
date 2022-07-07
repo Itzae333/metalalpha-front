@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { isEmptyObject } from 'jquery';
 import { Carrito } from 'src/app/models/carrito';
 import { Cliente } from 'src/app/models/cliente';
@@ -7,6 +8,7 @@ import { Color } from 'src/app/models/color';
 import { Estatus_Venta } from 'src/app/models/estatu_venta';
 import { Fabrica } from 'src/app/models/fabrica';
 import { Inventario } from 'src/app/models/inventario';
+import { Items } from 'src/app/models/items';
 import { Nivel_Usuario } from 'src/app/models/nivel_usuario';
 import { Pintura } from 'src/app/models/pintura';
 import { Producto } from 'src/app/models/producto';
@@ -21,18 +23,23 @@ import { FabricaService } from 'src/app/service/fabrica.service';
 import { InventarioService } from 'src/app/service/inventario.service';
 import { PinturaService } from 'src/app/service/pintura.service';
 import { ProductoService } from 'src/app/service/producto.service';
+import { TipoCuentaService } from 'src/app/service/tipo_cuenta.service';
 import { UsuarioService } from 'src/app/service/usuario.service';
 import { VentaService } from 'src/app/service/venta.service';
 
 @Component({
-  selector: 'app-registroventas',
-  templateUrl: './registroventas.component.html',
-  styleUrls: ['./registroventas.component.css'],
+  selector: 'app-administrador',
+  templateUrl: './administrador.component.html',
+  styleUrls: ['./administrador.component.css'],
   providers: [UsuarioService, ProductoService, FabricaService, PinturaService,
-    ColorService, InventarioService, CarritoService, VentaService, EstatusVentaService]
+    ColorService, InventarioService, CarritoService, VentaService, EstatusVentaService,TipoCuentaService]
 })
-export class RegistroventasComponent implements OnInit {
-
+export class AdministradorComponent implements OnInit {
+  @ViewChild("modalUsuario", {static: false}) modalUsuario: TemplateRef<any> |undefined;
+  @ViewChild("modalFabrica", {static: false}) modalFabrica: TemplateRef<any> |undefined;
+  @ViewChild("modalPintura", {static: false}) modalPintura: TemplateRef<any> |undefined;
+  @ViewChild("modalTipoCuenta", {static: false}) modalTipoCuenta: TemplateRef<any> |undefined;
+  @ViewChild("modalColor", {static: false}) modalColor: TemplateRef<any> |undefined;
   public usuario: any;
   public producto: any;
   public carrito: any;
@@ -68,6 +75,8 @@ export class RegistroventasComponent implements OnInit {
   public ventas: Venta[];
   public factura:string;
   public total: number;
+  public itemG:any;
+  public items:Items[];
 
   constructor(
     private _usuarioService: UsuarioService,
@@ -82,6 +91,8 @@ export class RegistroventasComponent implements OnInit {
     private _estatusVentaService: EstatusVentaService,
     private _router:Router,
     private _route:ActivatedRoute,
+    private _tipoCuentaService: TipoCuentaService,
+    private modalService: NgbModal,
   ) {
     this.buscar = "";
     this.factura="";
@@ -89,6 +100,7 @@ export class RegistroventasComponent implements OnInit {
     this.mensaje = "";
     this.productos = [];
     this.ventas = [];
+    this.items = [];
     this.total = 0;
     this.colores = [];
     this.fabricas = [];
@@ -109,14 +121,27 @@ export class RegistroventasComponent implements OnInit {
     this.ventaSave = new Venta(0, true,'' ,0, 0, 0, 0, this.clienteSave, this.estatusVentaSave,this.usuarioSave);
     this.carritoSave = new Carrito(0, true, 0, 0, 0, this.inventarioSave, this.ventaSave);
   }
-
-
-
-
   ngOnInit(): void {
-    this.loadUsuario();
-    this.index();
+    let num=$('#Modulo').val();
+    this.validacionDeMetodo(num)
   }
+
+  validacionDeMetodo(num:any){
+    if(num=='Selecciona Modulo'){
+      this.indexUsuario();
+    }else if(num==1){
+      this.indexUsuario();
+    }else if(num==2){
+      this.indexFabrica();
+    }else if(num==3){
+      this.indexPintura();
+    }else if(num==4){
+      this.indexTipoCuenta();
+    }else if(num==5){
+      this.indexColor();
+    }
+  }
+
 
 
   buscarVenta(id: any) {
@@ -138,6 +163,41 @@ export class RegistroventasComponent implements OnInit {
 
   selectId(id: any) {
     localStorage.setItem('idVenta', id);
+  }
+
+  indexPintura() {
+    this._pinturaService.index().subscribe(
+      data => {
+        this.items = data.content;
+      })
+  }
+
+  indexTipoCuenta() {
+    this._tipoCuentaService.index().subscribe(
+      data => {
+        this.items = data.content;
+      })
+  }
+
+  indexColor() {
+    this._colorService.index().subscribe(
+      data => {
+        this.items = data.content;
+      })
+  }
+  indexFabrica() {
+    this._fabricaService.index().subscribe(
+      data => {
+        this.items = data.content;
+      })
+  }
+
+  indexUsuario() {
+    this._usuarioService.index().subscribe(
+      data => {
+        this.items = data.content;
+
+      })
   }
 
 
@@ -211,16 +271,29 @@ export class RegistroventasComponent implements OnInit {
     }
   }
 
-
-  index() {
-    this._ventaService.index().subscribe(
-      data => {
-        this.ventas = data.content;
-      })
+  actualizarModulo(){
+this.ngOnInit();
   }
 
-  cancelarVenta(){
+  mostrarModal(id:any){
+    localStorage.setItem('id',id);
+    let num=$('#Modulo').val();
+    if(num=='Selecciona Modulo'){
+      
+    }else if(num==1){
+      this.modalService.open(this.modalUsuario);
+    }else if(num==2){
+      this.modalService.open(this.modalFabrica);
+    }else if(num==3){
+      this.modalService.open(this.modalPintura);
+    }else if(num==4){
+      this.modalService.open(this.modalTipoCuenta);
+    }else if(num==5){
+      this.modalService.open(this.modalColor);
+    }
     
   }
+
+  
 
 }

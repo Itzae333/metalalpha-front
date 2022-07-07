@@ -18,6 +18,7 @@ import { ProductoComponent } from './components/producto/producto.component';
 import { RegistroventasComponent } from './components/registroventas/registroventas.component';
 import { PagoComponent } from './components/pago/pago.component';
 import { TicketComponent } from './components/ticket/ticket.component';
+import { AdministradorComponent } from './components/administrador/administrador.component';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { TicketComponent } from './components/ticket/ticket.component';
     ProductoComponent,
     RegistroventasComponent,
     PagoComponent,
-    TicketComponent
+    TicketComponent,
+    AdministradorComponent
   ],
   imports: [
     AlertModule.forRoot(),

@@ -439,7 +439,6 @@ export class VentaComponent implements OnInit {
           esttausVentaResponse => {
             this.venta.estatusVenta = esttausVentaResponse;
             this.venta.total = total;
-            console.log(this.venta);
             this._ventaService.actualizarVenta(idVenta,this.venta).subscribe(
               resuklt => {
                 localStorage.removeItem('idCarrito')
