@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<form id="printJS-form">
+<body>
+    <div class="ticket">
+        <img src="./assets/logo_small.png" alt="Logotipo">
+        <div *ngFor="let fabrica of fabricas " class="container-flex">
+            <p>NOTA: {{nota}}</p>
+            <p>DIRECCION:</p>
+            <p>{{fabrica.estado}}</p>
+            <p>{{fabrica.municipio}}</p>
+            <p>{{fabrica.calle}}</p>
+            <p>Telefono:{{fabrica.telefono1}}
+                O al :{{fabrica.telefono2}}
+            </p>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Cantidad</th>
+                    <th>Descripcion</th>
+                    <th>PU</th>
+                    <th>$$</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let carrito of carritos">
+                    <td>{{carrito.cantidad}}</td>
+                    <td>{{carrito.inventario.producto.nombre+ ''+carrito.inventario.producto.medidas+'
+                        '+carrito.inventario.producto.tipo}} </td>
+                    <td>{{carrito.precio_neto | currency}}</td>
+                    <td>{{carrito.total | currency}}</td>
+                </tr>
+                <tr>
+                    <td>TOTAL</td>
+                    <td></td>
+                    <td></td>
+                    {{total| currency}}
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</form>
+<button class="oculto-impresion" onclick="printJS('printJS-form', 'html')">Imprimir</button>
+</html>

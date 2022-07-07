@@ -44,7 +44,7 @@ export class AppComponent implements DoCheck {
     this.nivel = "";
     this.clientes = [];
     this.estatusVentaSave = new Estatus_Venta(1, true, 'apertura');
-    this.fabricaSave = new Fabrica(0, true, '','');
+    this.fabricaSave = new Fabrica(0, true, '', '', '', '', '', '', '', '');
     this.tipoCuentaSave = new Tipo_Cuenta(1, true, 'Publico','P');
     this.nivelUsuarioSave=new Nivel_Usuario(0,true,'','');
     this.clienteSave = new Cliente(1, true, 'mostrador', 'mostrador', 'mostrador', 'mostrador', this.tipoCuentaSave)

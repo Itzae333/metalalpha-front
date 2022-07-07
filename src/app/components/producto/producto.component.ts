@@ -53,7 +53,7 @@ export class ProductoComponent implements OnInit {
     this.fabricas = [];
     this.pinturas = [];
     this.colorSave = new Color(0, true, '');
-    this.fabricaSave = new Fabrica(0, true, '', '');
+    this.fabricaSave = new Fabrica(0, true, '', '', '', '', '', '', '', '');
     this.pinturaSave = new Pintura(0, true, '');
     this.productoSave = new Producto(0, '', '', '', 0, 0, 0, 0, 0, 0,0,0,0, 0, true, this.pinturaSave, this.fabricaSave);
     this.inventarioSave = new Inventario(0, true, 0, this.productoSave, this.colorSave, this.fabricaSave);
@@ -109,7 +109,7 @@ export class ProductoComponent implements OnInit {
         this.productos = data.content;
       })
   }
-  indexFabrica() {
+  indexPintura() {
     this._pinturaService.index().subscribe(
       data => {
         this.pinturas = data.content;
@@ -122,7 +122,7 @@ export class ProductoComponent implements OnInit {
         this.colores = data.content;
       })
   }
-  indexPintura() {
+  indexFabrica() {
     this._fabricaService.index().subscribe(
       data => {
         this.fabricas = data.content;
